@@ -1,18 +1,27 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
+import Drawer from "../Drawer";
 import Dashboard from "../Dashboard";
-import { Link } from "react-router-dom";
+import "./Header.css";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import HomeIcon from "@mui/icons-material/Home";
+import LoginIcon from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import "./Header.css";
-import Drawer from "../Drawer";
 
 export default function Header() {
+  const navigate = useNavigate();
   const cartContext = useContext(CartContext);
   const { cartItems } = cartContext;
+  const user = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      // navigate("/login");
+    }
+  });
   return (
     <>
       <div className="header">
@@ -34,7 +43,19 @@ export default function Header() {
           </Link>
         </div>
         <div className="left-icon">
-          <Dashboard />
+          {!user ? (
+            <>
+              <IconButton
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                <LoginIcon fontSize="large" style={{ color: "#ffff90" }} />
+              </IconButton>
+            </>
+          ) : (
+            <Dashboard />
+          )}
           <Link to={"/cart"}>
             <IconButton>
               <Badge badgeContent={String(cartItems.length)} color="secondary">
