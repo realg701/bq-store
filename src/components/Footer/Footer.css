@@ -15,9 +15,6 @@
   color: #ffff90;
   font-size: 24px;
   text-align: center;
-  display: flex;
   font-size: 24px;
-  justify-content: space-between;
-  align-items: baseline;
   padding: 5px 10px;
 }

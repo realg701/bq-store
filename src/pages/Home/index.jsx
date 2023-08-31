@@ -37,13 +37,11 @@ export default function Home() {
             return (
               <Link to={`/products/${product._id}`} key={productIndex}>
                 <div className="products-container ">
-                  <div className="loading">
-                    <img
-                      className="products-image"
-                      src={product.image}
-                      alt={product.title}
-                    />
-                  </div>
+                  <img
+                    className="products-image"
+                    src={product.image}
+                    alt={product.title}
+                  />
                   <div className="products-title">
                     <p>
                       {product.title} | {product.category}

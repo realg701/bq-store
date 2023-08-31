@@ -26,9 +26,10 @@ a:hover {
 }
 
 .home {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* flex-wrap: wrap; */
+  /* align-items: center; */
   gap: 15px;
   margin: 15px;
 }
@@ -46,7 +47,10 @@ a:hover {
 }
 
 .products-container {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* width: 50%; */
   box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.16),
     0 5px 10px 5px rgba(0, 0, 0, 0.12);
 }
