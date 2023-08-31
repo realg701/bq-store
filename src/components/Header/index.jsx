@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
 import Drawer from "../Drawer";
@@ -16,56 +16,57 @@ export default function Header() {
   const { cartItems } = cartContext;
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      // navigate("/login");
-    }
-  });
   return (
     <>
       <div className="header">
-        <div className="left-icon">
-          <Drawer />
-          <Link to={"/"}>
-            <IconButton>
-              <HomeIcon fontSize="large" style={{ color: "#ffff90" }} />
-              <span
-                style={{
-                  color: "#ffff90",
-                  marginLeft: "10px",
-                  fontSize: "28px",
-                }}
-              >
-                <strong>BQ</strong> Store
-              </span>
-            </IconButton>
-          </Link>
-        </div>
-        <div className="left-icon">
-          {!user ? (
-            <>
-              <IconButton
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                <LoginIcon fontSize="large" style={{ color: "#ffff90" }} />
+        <div className="header-align">
+          <div className="header-icon">
+            <span>
+              <Drawer />
+            </span>
+            <Link to={"/"}>
+              <IconButton>
+                <HomeIcon fontSize="large" style={{ color: "#ffff90" }} />
+                <span
+                  style={{
+                    color: "#ffff90",
+                    marginLeft: "10px",
+                    fontSize: "28px",
+                  }}
+                >
+                  <strong>BQ</strong> Store
+                </span>
               </IconButton>
-            </>
-          ) : (
-            <Dashboard />
-          )}
-          <Link to={"/cart"}>
-            <IconButton>
-              <Badge badgeContent={String(cartItems.length)} color="secondary">
-                <ShoppingCartIcon
-                  fontSize="large"
-                  style={{ color: "#ffff90" }}
-                />
-              </Badge>
-            </IconButton>
-          </Link>
+            </Link>
+          </div>
+          <div className="header-icon">
+            {!user ? (
+              <div>
+                <IconButton
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  <LoginIcon fontSize="large" style={{ color: "#ffff90" }} />
+                </IconButton>
+              </div>
+            ) : (
+              <Dashboard />
+            )}
+            <Link to={"/cart"}>
+              <IconButton>
+                <Badge
+                  badgeContent={String(cartItems.length)}
+                  color="secondary"
+                >
+                  <ShoppingCartIcon
+                    fontSize="large"
+                    style={{ color: "#ffff90" }}
+                  />
+                </Badge>
+              </IconButton>
+            </Link>
+          </div>
         </div>
       </div>
     </>

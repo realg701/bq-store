@@ -4,7 +4,11 @@ export default function Footer() {
   return (
     <>
       <div className="footer">
-        <div>BQ Store</div>
+        <div className="footer-align">
+          <span>
+            <strong>BQ</strong> Store
+          </span>
+        </div>
       </div>
     </>
   );
