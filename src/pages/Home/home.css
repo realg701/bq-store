@@ -5,6 +5,20 @@ a {
 a:hover {
   color: #007175;
 }
+.header-image {
+  overflow: hidden;
+}
+
+.header-image img {
+  height: 250px;
+  overflow: hidden;
+}
+@media screen and (min-width: 600px) {
+  .header-image img {
+    width: 100%;
+    height: auto;
+  }
+}
 
 .loading {
   display: flex;
@@ -12,23 +26,27 @@ a:hover {
 }
 
 .home {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+
+  align-items: center;
   gap: 15px;
   margin: 15px;
 }
 @media screen and (min-width: 600px) {
   .home {
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 @media screen and (min-width: 900px) {
   .home {
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 }
 
 .products-container {
+  width: 100%;
   box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.16),
     0 5px 10px 5px rgba(0, 0, 0, 0.12);
 }

@@ -3,15 +3,21 @@ import { useNavigate } from "react-router";
 import "./addproduct.css";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import UploadIcon from "@mui/icons-material/Upload";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Container } from "@mui/material";
 
-export default function AddProduct() {
+export default function Register() {
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem("token"));
+
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [seller, setSeller] = useState("");
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -22,13 +28,6 @@ export default function AddProduct() {
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [seller, setSeller] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -50,20 +49,6 @@ export default function AddProduct() {
     if (name === "price") {
       setPrice(value);
     }
-  };
-
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    const response = await fetch(
-      "https://fancy-trousers-ox.cyclic.app/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    console.log("res", response);
   };
 
   const handleSubmit = async () => {
@@ -102,12 +87,11 @@ export default function AddProduct() {
     }
 
     const response = await fetch(
-      "https://fancy-trousers-ox.cyclic.app/products/add",
+      "https://fancy-trousers-ox.cyclic.app/users/register",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(productData),
       }
@@ -117,8 +101,8 @@ export default function AddProduct() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/login");
+    if (user) {
+      navigate("/");
     }
   });
 
@@ -127,7 +111,7 @@ export default function AddProduct() {
       <div className="add-flex">
         <div className="add-container">
           <Container className="input-container">
-            <h3>Add Product</h3>
+            <h3>Register User</h3>
             <TextField
               required
               fullWidth
@@ -169,34 +153,6 @@ export default function AddProduct() {
                 variant="outlined"
                 className="text-field"
               />
-              <p>or</p>
-              <span className="saperater-min">
-                <Button
-                  variant="contained"
-                  component="label"
-                  size="large"
-                  startIcon={<UploadIcon />}
-                >
-                  Upload
-                  <input
-                    onChange={handleUpload}
-                    name="image"
-                    type="file"
-                    hidden
-                  />
-                </Button>
-              </span>
-              <span className="saperater-max">
-                <Button variant="contained" component="label">
-                  <UploadIcon />
-                  <input
-                    onChange={handleUpload}
-                    name="image"
-                    type="file"
-                    hidden
-                  />
-                </Button>
-              </span>
             </div>
 
             <TextField

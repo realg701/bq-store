@@ -21,6 +21,12 @@ export default function Home() {
   }, []);
   return (
     <>
+      <div className="header-image">
+        <img
+          src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
+          alt=""
+        />
+      </div>
       {loading ? (
         <div className="loading">
           <CircularProgress color="secondary" />

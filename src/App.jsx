@@ -10,6 +10,7 @@ import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/products/:id" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/products/edit/:id" element={<EditProduct />} />

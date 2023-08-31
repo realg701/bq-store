@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./login.css";
 import { Container } from "@mui/material";
@@ -13,6 +13,7 @@ export default function Login() {
 
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
+
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -46,6 +47,7 @@ export default function Login() {
         body: JSON.stringify(userData),
       }
     );
+
     const data = await response.json();
     if (data.user) {
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -55,6 +57,13 @@ export default function Login() {
     }
     setOpen(true);
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      navigate("/");
+    }
+  });
 
   return (
     <>
@@ -93,7 +102,7 @@ export default function Login() {
               open={open}
               onClose={handleClose}
               autoHideDuration={5000}
-              anchorOrigin={{ vertical: "center", horizontal: "center" }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
               <Alert
                 onClose={handleClose}
