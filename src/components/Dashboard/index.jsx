@@ -1,7 +1,8 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { IconButton } from "@mui/material";
+import { Person } from "@mui/icons-material";
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -15,15 +16,15 @@ export default function BasicMenu() {
 
   return (
     <div>
-      <Button
+      <IconButton
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        Dashboard
-      </Button>
+        <Person fontSize="large" style={{ color: "#ffff90" }} />
+      </IconButton>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

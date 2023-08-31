@@ -2,7 +2,7 @@ import { useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router";
 import "./addproduct.css";
 import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -11,12 +11,8 @@ import { Container } from "@mui/material";
 export default function Register() {
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [seller, setSeller] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [userName, setUserName] = useState("");
+  const [passWord, setPassWord] = useState("");
 
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
@@ -31,57 +27,21 @@ export default function Register() {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    if (name === "title") {
-      setTitle(value);
+    if (name === "userName") {
+      setUserName(value);
     }
-    if (name === "category") {
-      setCategory(value);
-    }
-    if (name === "seller") {
-      setSeller(value);
-    }
-    if (name === "image") {
-      setImage(value);
-    }
-    if (name === "description") {
-      setDescription(value);
-    }
-    if (name === "price") {
-      setPrice(value);
+    if (name === "passWord") {
+      setPassWord(value);
     }
   };
 
   const handleSubmit = async () => {
-    const productData = {
-      title,
-      category,
-      seller,
-      image,
-      description,
-      price,
-    };
-
-    if (productData.title === "") {
+    const userData = { userName, passWord };
+    if (userData.userName === "") {
       setOpen(true);
       return;
     }
-    if (productData.category === "") {
-      setOpen(true);
-      return;
-    }
-    if (productData.seller === "") {
-      setOpen(true);
-      return;
-    }
-    if (productData.image === "") {
-      setOpen(true);
-      return;
-    }
-    if (productData.description === "") {
-      setOpen(true);
-      return;
-    }
-    if (productData.price === "") {
+    if (userData.passWord === "") {
       setOpen(true);
       return;
     }
@@ -93,7 +53,7 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(productData),
+        body: JSON.stringify(userData),
       }
     );
     console.log("Response", response);
@@ -115,66 +75,20 @@ export default function Register() {
             <TextField
               required
               fullWidth
-              value={title}
+              value={userName}
               onChange={handleChange}
-              name="title"
-              label="Title"
+              name="userName"
+              label="Username"
               variant="outlined"
               className="text-field"
             />
             <TextField
               required
               fullWidth
-              value={category}
+              value={passWord}
               onChange={handleChange}
-              name="category"
-              label="Category"
-              variant="outlined"
-              className="text-field"
-            />
-            <TextField
-              required
-              fullWidth
-              value={seller}
-              onChange={handleChange}
-              name="seller"
-              label="Seller"
-              variant="outlined"
-              className="text-field"
-            />
-
-            <div className="add-flex image-input">
-              <TextField
-                fullWidth
-                value={image}
-                onChange={handleChange}
-                name="image"
-                label="Image"
-                variant="outlined"
-                className="text-field"
-              />
-            </div>
-
-            <TextField
-              required
-              fullWidth
-              value={description}
-              onChange={handleChange}
-              name="description"
-              label="Description"
-              variant="outlined"
-              className="text-field"
-              multiline
-              maxRows={4}
-            />
-            <TextField
-              required
-              fullWidth
-              value={price}
-              onChange={handleChange}
-              name="price"
-              label="Price"
-              type="number"
+              name="passWord"
+              label="Password"
               variant="outlined"
               className="text-field"
             />
@@ -184,9 +98,9 @@ export default function Register() {
               variant="contained"
               color="success"
               className="add-btn"
-              startIcon={<AddIcon />}
+              startIcon={<PersonAddIcon />}
             >
-              Add Product
+              Register User
             </Button>
             <Snackbar
               open={open}
