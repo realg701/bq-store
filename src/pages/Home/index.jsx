@@ -21,39 +21,41 @@ export default function Home() {
   }, []);
   return (
     <>
-      <div className="header-image">
-        <img
-          src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
-          alt=""
-        />
-      </div>
-      {loading ? (
-        <div className="loading">
-          <CircularProgress color="secondary" />
+      <div className="home-container">
+        <div className="header-image">
+          <img
+            src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
+            alt=""
+          />
         </div>
-      ) : (
-        <div className="home">
-          {products.map((product, productIndex) => {
-            return (
-              <Link to={`/products/${product._id}`} key={productIndex}>
-                <div className="products-container ">
-                  <img
-                    className="products-image"
-                    src={product.image}
-                    alt={product.title}
-                  />
-                  <div className="products-title">
-                    <p>
-                      {product.title} | {product.category}
-                    </p>
-                    <p>Rs. {product.price}</p>
+        {loading ? (
+          <div className="loading">
+            <CircularProgress color="secondary" />
+          </div>
+        ) : (
+          <div className="home">
+            {products.map((product, productIndex) => {
+              return (
+                <Link to={`/products/${product._id}`} key={productIndex}>
+                  <div className="products-container ">
+                    <img
+                      className="products-image"
+                      src={product.image}
+                      alt={product.title}
+                    />
+                    <div className="products-title">
+                      <p>
+                        {product.title} | {product.category}
+                      </p>
+                      <p>Rs. {product.price}</p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </>
   );
 }
