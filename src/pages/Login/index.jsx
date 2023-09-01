@@ -67,52 +67,54 @@ export default function Login() {
 
   return (
     <>
-      <div className="login-flex">
-        <div className="login-container">
-          <Container className="login-input-container">
-            <h3>Login</h3>
-            <TextField
-              fullWidth
-              value={userName}
-              onChange={handleChange}
-              name="userName"
-              label="User Name"
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              value={passWord}
-              onChange={handleChange}
-              name="passWord"
-              type="password"
-              label="Password"
-              variant="outlined"
-            />
-            <Button
-              fullWidth
-              onClick={handleSubmit}
-              variant="contained"
-              color="success"
-              className="login-btn"
-              startIcon={<LoginIcon />}
-            >
-              Login
-            </Button>
-            <Snackbar
-              open={open}
-              onClose={handleClose}
-              autoHideDuration={5000}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="error"
-                sx={{ width: "100%" }}
+      <div className="container">
+        <div className="login-flex">
+          <div className="login-container">
+            <Container className="login-input-container">
+              <h3>Login</h3>
+              <TextField
+                fullWidth
+                value={userName}
+                onChange={handleChange}
+                name="userName"
+                label="User Name"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                value={passWord}
+                onChange={handleChange}
+                name="passWord"
+                type="password"
+                label="Password"
+                variant="outlined"
+              />
+              <Button
+                fullWidth
+                onClick={handleSubmit}
+                variant="contained"
+                color="success"
+                className="login-btn"
+                startIcon={<LoginIcon />}
               >
-                Login Failed!
-              </Alert>
-            </Snackbar>
-          </Container>
+                Login
+              </Button>
+              <Snackbar
+                open={open}
+                onClose={handleClose}
+                autoHideDuration={5000}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="error"
+                  sx={{ width: "100%" }}
+                >
+                  Login Failed!
+                </Alert>
+              </Snackbar>
+            </Container>
+          </div>
         </div>
       </div>
     </>

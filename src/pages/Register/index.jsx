@@ -68,55 +68,57 @@ export default function Register() {
 
   return (
     <>
-      <div className="add-flex">
-        <div className="add-container">
-          <Container className="input-container">
-            <h3>Register User</h3>
-            <TextField
-              required
-              fullWidth
-              value={userName}
-              onChange={handleChange}
-              name="userName"
-              label="Username"
-              variant="outlined"
-              className="text-field"
-            />
-            <TextField
-              required
-              fullWidth
-              value={passWord}
-              onChange={handleChange}
-              name="passWord"
-              label="Password"
-              variant="outlined"
-              className="text-field"
-            />
-            <Button
-              fullWidth
-              onClick={handleSubmit}
-              variant="contained"
-              color="success"
-              className="add-btn"
-              startIcon={<PersonAddIcon />}
-            >
-              Register User
-            </Button>
-            <Snackbar
-              open={open}
-              autoHideDuration={5000}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="error"
-                sx={{ width: "100%" }}
+      <div className="container">
+        <div className="add-flex">
+          <div className="add-container">
+            <Container className="input-container">
+              <h3>Register User</h3>
+              <TextField
+                required
+                fullWidth
+                value={userName}
+                onChange={handleChange}
+                name="userName"
+                label="Username"
+                variant="outlined"
+                className="text-field"
+              />
+              <TextField
+                required
+                fullWidth
+                value={passWord}
+                onChange={handleChange}
+                name="passWord"
+                label="Password"
+                variant="outlined"
+                className="text-field"
+              />
+              <Button
+                fullWidth
+                onClick={handleSubmit}
+                variant="contained"
+                color="success"
+                className="add-btn"
+                startIcon={<PersonAddIcon />}
               >
-                Empty Fieled!
-              </Alert>
-            </Snackbar>
-          </Container>
+                Register User
+              </Button>
+              <Snackbar
+                open={open}
+                autoHideDuration={5000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="error"
+                  sx={{ width: "100%" }}
+                >
+                  Empty Fieled!
+                </Alert>
+              </Snackbar>
+            </Container>
+          </div>
         </div>
       </div>
     </>

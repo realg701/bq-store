@@ -53,74 +53,80 @@ export default function Product() {
 
   return (
     <>
-      <div className="product-flex">
-        {loading ? (
-          <CircularProgress color="secondary" />
-        ) : (
-          <>
-            <div className="product-container">
-              <img className="product-image" src={singleProduct.image} alt="" />
-              <div className="product-title">
-                {user ? (
+      <div className="container">
+        <div className="product-flex">
+          {loading ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <>
+              <div className="product-container">
+                <img
+                  className="product-image"
+                  src={singleProduct.image}
+                  alt=""
+                />
+                <div className="product-title">
+                  {user ? (
+                    <div className="product-btn">
+                      <abbr title="Edit Product">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<EditIcon />}
+                          onClick={() => navigate(`/products/edit/${id}`)}
+                        >
+                          Edit Product
+                        </Button>
+                      </abbr>
+                      <abbr title="Delete Product">
+                        <Button
+                          variant="contained"
+                          color="error"
+                          endIcon={<DeleteForeverIcon />}
+                          onClick={handleDelete}
+                        >
+                          Delete Product
+                        </Button>
+                      </abbr>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  <p>{singleProduct.title}</p>
+                  <p>Seller: {singleProduct.seller}</p>
+                  <p>Category: {singleProduct.category}</p>
+                  <p>Rs. {singleProduct.price}</p>
                   <div className="product-btn">
-                    <abbr title="Edit Product">
+                    <abbr title="Add to Cart">
                       <Button
                         variant="contained"
-                        color="primary"
-                        startIcon={<EditIcon />}
-                        onClick={() => navigate(`/products/edit/${id}`)}
+                        color="success"
+                        startIcon={<AddShoppingCartIcon />}
+                        onClick={() => addToCart(singleProduct)}
                       >
-                        Edit Product
+                        Add to Cart
                       </Button>
                     </abbr>
-                    <abbr title="Delete Product">
+                    <abbr title="Buy Now">
                       <Button
                         variant="contained"
-                        color="error"
-                        endIcon={<DeleteForeverIcon />}
-                        onClick={handleDelete}
+                        color="warning"
+                        endIcon={<ShoppingBagIcon />}
+                        onClick={() => buyNow(name)}
                       >
-                        Delete Product
+                        Buy now
                       </Button>
                     </abbr>
                   </div>
-                ) : (
-                  <></>
-                )}
-                <p>{singleProduct.title}</p>
-                <p>Seller: {singleProduct.seller}</p>
-                <p>Category: {singleProduct.category}</p>
-                <p>Rs. {singleProduct.price}</p>
-                <div className="product-btn">
-                  <abbr title="Add to Cart">
-                    <Button
-                      variant="contained"
-                      color="success"
-                      startIcon={<AddShoppingCartIcon />}
-                      onClick={() => addToCart(singleProduct)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </abbr>
-                  <abbr title="Buy Now">
-                    <Button
-                      variant="contained"
-                      color="warning"
-                      endIcon={<ShoppingBagIcon />}
-                      onClick={() => buyNow(name)}
-                    >
-                      Buy now
-                    </Button>
-                  </abbr>
                 </div>
               </div>
-            </div>
-            <div className="product-description product-flex product-container">
-              <h3>Product description.</h3>
-              <p>{singleProduct.description}</p>
-            </div>
-          </>
-        )}
+              <div className="product-description product-flex product-container">
+                <h3>Product description.</h3>
+                <p>{singleProduct.description}</p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

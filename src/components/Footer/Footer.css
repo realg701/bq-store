@@ -10,6 +10,7 @@
   bottom: 0;
   width: 100%;
   overflow: hidden;
+  z-index: 5;
 }
 .footer-align {
   color: #ffff90;

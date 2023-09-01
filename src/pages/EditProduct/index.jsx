@@ -87,122 +87,124 @@ export default function EditProduct() {
 
   return (
     <>
-      <div className="add-flex">
-        <div className="add-container">
-          {loading ? (
-            <>
-              <CircularProgress />
-            </>
-          ) : (
-            <Container className="input-container">
-              <h3>Edit Product</h3>
-              <TextField
-                required
-                fullWidth
-                value={singleProduct.title}
-                onChange={handleChange}
-                name="title"
-                label="Title"
-                variant="outlined"
-                className="text-field"
-              />
-              <TextField
-                required
-                fullWidth
-                value={singleProduct.category}
-                onChange={handleChange}
-                name="category"
-                label="Category"
-                variant="outlined"
-                className="text-field"
-              />
-              <TextField
-                required
-                fullWidth
-                value={singleProduct.seller}
-                onChange={handleChange}
-                name="seller"
-                label="Seller"
-                variant="outlined"
-                className="text-field"
-              />
-
-              <div className="add-flex image-input">
+      <div className="container">
+        <div className="add-flex">
+          <div className="add-container">
+            {loading ? (
+              <>
+                <CircularProgress />
+              </>
+            ) : (
+              <Container className="input-container">
+                <h3>Edit Product</h3>
                 <TextField
+                  required
                   fullWidth
-                  value={singleProduct.image}
+                  value={singleProduct.title}
                   onChange={handleChange}
-                  name="image"
-                  label="Image"
+                  name="title"
+                  label="Title"
                   variant="outlined"
                   className="text-field"
                 />
-                <p>or</p>
-                <Button
-                  variant="contained"
-                  component="label"
-                  size="large"
-                  startIcon={<UploadIcon />}
-                >
-                  Upload
-                  <input
-                    onChange={handleUpload}
-                    name="image"
-                    type="file"
-                    hidden
-                  />
-                </Button>
-              </div>
+                <TextField
+                  required
+                  fullWidth
+                  value={singleProduct.category}
+                  onChange={handleChange}
+                  name="category"
+                  label="Category"
+                  variant="outlined"
+                  className="text-field"
+                />
+                <TextField
+                  required
+                  fullWidth
+                  value={singleProduct.seller}
+                  onChange={handleChange}
+                  name="seller"
+                  label="Seller"
+                  variant="outlined"
+                  className="text-field"
+                />
 
-              <TextField
-                required
-                fullWidth
-                value={singleProduct.description}
-                onChange={handleChange}
-                name="description"
-                label="Description"
-                variant="outlined"
-                className="text-field"
-                multiline
-                maxRows={4}
-              />
-              <TextField
-                required
-                fullWidth
-                value={singleProduct.price}
-                onChange={handleChange}
-                name="price"
-                label="Price"
-                type="number"
-                variant="outlined"
-                className="text-field"
-              />
-              <Button
-                fullWidth
-                onClick={handleSubmit}
-                variant="contained"
-                color="success"
-                className="add-btn"
-                startIcon={<AddIcon />}
-              >
-                Add Product
-              </Button>
-              <Snackbar
-                open={open}
-                autoHideDuration={5000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              >
-                <Alert
-                  onClose={handleClose}
-                  severity="error"
-                  sx={{ width: "100%" }}
+                <div className="add-flex image-input">
+                  <TextField
+                    fullWidth
+                    value={singleProduct.image}
+                    onChange={handleChange}
+                    name="image"
+                    label="Image"
+                    variant="outlined"
+                    className="text-field"
+                  />
+                  <p>or</p>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    size="large"
+                    startIcon={<UploadIcon />}
+                  >
+                    Upload
+                    <input
+                      onChange={handleUpload}
+                      name="image"
+                      type="file"
+                      hidden
+                    />
+                  </Button>
+                </div>
+
+                <TextField
+                  required
+                  fullWidth
+                  value={singleProduct.description}
+                  onChange={handleChange}
+                  name="description"
+                  label="Description"
+                  variant="outlined"
+                  className="text-field"
+                  multiline
+                  maxRows={4}
+                />
+                <TextField
+                  required
+                  fullWidth
+                  value={singleProduct.price}
+                  onChange={handleChange}
+                  name="price"
+                  label="Price"
+                  type="number"
+                  variant="outlined"
+                  className="text-field"
+                />
+                <Button
+                  fullWidth
+                  onClick={handleSubmit}
+                  variant="contained"
+                  color="success"
+                  className="add-btn"
+                  startIcon={<AddIcon />}
                 >
-                  Empty Fieled!
-                </Alert>
-              </Snackbar>
-            </Container>
-          )}
+                  Add Product
+                </Button>
+                <Snackbar
+                  open={open}
+                  autoHideDuration={5000}
+                  onClose={handleClose}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                  >
+                    Empty Fieled!
+                  </Alert>
+                </Snackbar>
+              </Container>
+            )}
+          </div>
         </div>
       </div>
     </>
