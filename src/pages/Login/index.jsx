@@ -4,6 +4,7 @@ import "./login.css";
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import LoginIcon from "@mui/icons-material/Login";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -13,7 +14,6 @@ export default function Login() {
 
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
-
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -77,7 +77,7 @@ export default function Login() {
                 value={userName}
                 onChange={handleChange}
                 name="userName"
-                label="User Name"
+                label="Username"
                 variant="outlined"
               />
               <TextField
@@ -98,6 +98,16 @@ export default function Login() {
                 startIcon={<LoginIcon />}
               >
                 Login
+              </Button>
+              <Button
+                fullWidth
+                onClick={() => navigate("/register")}
+                variant="contained"
+                color="info"
+                className="login-btn"
+                startIcon={<PersonAddIcon />}
+              >
+                Register
               </Button>
               <Snackbar
                 open={open}
