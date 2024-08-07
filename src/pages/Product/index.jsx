@@ -21,7 +21,7 @@ export default function Product() {
   const fetchSingleProduct = async () => {
     setLoading(true);
     const response = await fetch(
-      `https://fancy-trousers-ox.cyclic.app/products/${id}`
+      `https://bq-store-backend.vercel.app/products/${id}`
     );
     const data = await response.json();
     setSingleProduct(data.product);
@@ -30,7 +30,7 @@ export default function Product() {
 
   const handleDelete = async () => {
     const response = await fetch(
-      `https://fancy-trousers-ox.cyclic.app/products/${id}`,
+      `https://bq-store-backend.vercel.app/products/${id}`,
       {
         method: "DELETE",
         headers: {
