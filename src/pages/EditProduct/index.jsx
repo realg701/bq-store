@@ -30,7 +30,7 @@ export default function EditProduct() {
   const fetchSingleProduct = async () => {
     setLoading(true);
     const response = await fetch(
-      `https://fancy-trousers-ox.cyclic.app/products/${id}`
+      `https://bq-store-backend.vercel.app/products/${id}`
     );
     const data = await response.json();
     setSingleProduct(data.product);
@@ -49,7 +49,7 @@ export default function EditProduct() {
     const formData = new FormData();
     formData.append("image", file);
     const response = await fetch(
-      "https://fancy-trousers-ox.cyclic.app/upload",
+      "https://bq-store-backend.vercel.app/upload",
       {
         method: "POST",
         body: formData,
@@ -61,7 +61,7 @@ export default function EditProduct() {
   const handleSubmit = async () => {
     const productData = { ...singleProduct };
     const response = await fetch(
-      `https://fancy-trousers-ox.cyclic.app/products/edit/${id}`,
+      `https://bq-store-backend.vercel.app/products/edit/${id}`,
       {
         method: "PUT",
         headers: {
