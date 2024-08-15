@@ -8,6 +8,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { BE_URL } from "../../constants/url";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -37,16 +38,13 @@ export default function Login() {
 
   const handleSubmit = async () => {
     const userData = { userName, passWord };
-    const response = await fetch(
-      "https://fancy-trousers-ox.cyclic.app/users/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      }
-    );
+    const response = await fetch(`${BE_URL}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
     const data = await response.json();
     if (data.user) {

@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import { BE_URL } from "../../constants/url";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchProducts = async () => {
     setLoading(true);
-    const response = await fetch(
-      "https://bq-store-backend.vercel.app/products/all"
-    );
+    const response = await fetch(`${BE_URL}/products/all`);
     const data = await response.json();
     setProducts(data.products);
     setLoading(false);

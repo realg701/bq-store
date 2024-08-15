@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Container } from "@mui/material";
+import { BE_URL } from "../../constants/url";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -46,16 +47,13 @@ export default function Register() {
       return;
     }
 
-    const response = await fetch(
-      "https://fancy-trousers-ox.cyclic.app/users/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      }
-    );
+    const response = await fetch(`${BE_URL}/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
     console.log("Response", response);
   };
 

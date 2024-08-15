@@ -8,6 +8,7 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CircularProgress from "@mui/material/CircularProgress";
+import { BE_URL } from "../../constants/url";
 
 export default function Product() {
   const navigate = useNavigate();
@@ -20,24 +21,19 @@ export default function Product() {
   const [loading, setLoading] = useState(false);
   const fetchSingleProduct = async () => {
     setLoading(true);
-    const response = await fetch(
-      `https://bq-store-backend.vercel.app/products/${id}`
-    );
+    const response = await fetch(`${BE_URL}/products/${id}`);
     const data = await response.json();
     setSingleProduct(data.product);
     setLoading(false);
   };
 
   const handleDelete = async () => {
-    const response = await fetch(
-      `https://bq-store-backend.vercel.app/products/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${BE_URL}/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
     console.log("data", data);
     navigate("/");
