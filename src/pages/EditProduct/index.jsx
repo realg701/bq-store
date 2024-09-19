@@ -9,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Container } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import { BE_URL } from "../../constants/url";
 
 export default function EditProduct() {
   const navigate = useNavigate();
@@ -29,9 +30,7 @@ export default function EditProduct() {
   const { id } = useParams();
   const fetchSingleProduct = async () => {
     setLoading(true);
-    const response = await fetch(
-      `https://bq-store-backend.vercel.app/products/${id}`
-    );
+    const response = await fetch(`${BE_URL}/products/${id}`);
     const data = await response.json();
     setSingleProduct(data.product);
     setLoading(false);
@@ -48,29 +47,23 @@ export default function EditProduct() {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("image", file);
-    const response = await fetch(
-      "https://bq-store-backend.vercel.app/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${BE_URL}/upload`, {
+      method: "POST",
+      body: formData,
+    });
     console.log("res", response);
   };
 
   const handleSubmit = async () => {
     const productData = { ...singleProduct };
-    const response = await fetch(
-      `https://bq-store-backend.vercel.app/products/edit/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(productData),
-      }
-    );
+    const response = await fetch(`${BE_URL}/products/edit/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(productData),
+    });
     console.log("Response", response);
   };
 
