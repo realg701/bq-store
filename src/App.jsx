@@ -12,6 +12,7 @@ import CheckOut from "./pages/Checkout";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Register from "./pages/Register";
+import Orders from "./pages/orders";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/products/edit/:id" element={<EditProduct />} />
               <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/orders" element={<Orders />} />
             </Routes>
             <Footer />
           </ProductContainer>
