@@ -23,6 +23,7 @@
 }
 
 .cart-image {
+  object-fit: contain;
   width: 90px;
   height: 90px;
   margin: auto;
