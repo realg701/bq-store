@@ -1,0 +1,8 @@
+.orders-container {
+  margin-top: 300px;
+}
+
+.orders-card {
+  display: flex;
+  flex-direction: column;
+}
