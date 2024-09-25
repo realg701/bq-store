@@ -12,7 +12,7 @@ import CheckOut from "./pages/Checkout";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Register from "./pages/Register";
-import Orders from "./pages/orders";
+import Orders from "./pages/Orders";
 
 export default function App() {
   return (
