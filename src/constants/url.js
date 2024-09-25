@@ -1,1 +1,1 @@
-export const BE_URL = "https://bq-store-backend-c6pv.vercel.app";
+export const BE_URL = "https://bq-store-backend.vercel.app";
