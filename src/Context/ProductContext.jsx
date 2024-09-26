@@ -8,7 +8,9 @@ export const ProductContainer = ({ children }) => {
     setAllProducts(data);
   };
   return (
-    <ProductContext.Provider value={{ allProducts, setProductsGlobally }}>
+    <ProductContext.Provider
+      value={{ allProducts, setProductsGlobally, setAllProducts }}
+    >
       {children}
     </ProductContext.Provider>
   );
