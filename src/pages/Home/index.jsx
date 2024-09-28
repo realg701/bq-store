@@ -1,59 +1,88 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { BE_URL } from "../../constants/url";
+import CartContext from "../../Context/CartContext";
+import ProductContext from "../../Context/ProductContext";
+import { Button } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const fetchProducts = async () => {
+  const cartContext = React.useContext(CartContext);
+  const { addToCart, buyNow } = cartContext;
+  const productContext = React.useContext(ProductContext);
+  const { allProducts, setAllProducts } = productContext;
+  // const [products, setProducts] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  console.log(allProducts);
+  React.useEffect(() => {
     setLoading(true);
-    const response = await fetch(`${BE_URL}/products/all`);
-    const data = await response.json();
-    setProducts(data.products);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetch(`${BE_URL}/products/all`)
+      .then((res) => res.json())
+      .then((data) => {
+        // setProducts(data.products);
+        setAllProducts(data.products);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, [setAllProducts]);
   return (
     <>
       <div className="home-container">
         <div className="header-image">
           <img
             src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
-            alt=""
+            alt="hero image"
           />
         </div>
-        {loading ? (
-          <div className="loading">
-            <CircularProgress color="secondary" />
-          </div>
-        ) : (
-          <div className="home">
-            {products.map((product, productIndex) => {
-              return (
-                <Link to={`/products/${product._id}`} key={productIndex}>
-                  <div className="products-container ">
-                    <img
-                      className="products-image"
-                      src={product.image}
-                      alt={product.title}
-                    />
-                    <div className="products-title">
+        <div className="container">
+          {loading ? (
+            <div className="loading">
+              <CircularProgress color="secondary" />
+            </div>
+          ) : (
+            <>
+              {allProducts.map((product) => (
+                <div className="products-container" key={product._id}>
+                  <Link to={`/products/${product._id}`}>
+                    <div className="products-card">
+                      <img src={product.image} alt={product.title} />
                       <p>
                         {product.title} | {product.category}
                       </p>
-                      <p>Rs. {product.price}</p>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+                  </Link>
+                  <span>
+                    <p>Rs. {product.price} </p>
+                    <p>{product.category}</p>
+                  </span>
+                  <span>
+                    <Button
+                      className="btn"
+                      variant="contained"
+                      color="success"
+                      onClick={() => addToCart(product)}
+                    >
+                      <AddShoppingCartIcon />
+                      Add to Cart
+                    </Button>
+                    <Button
+                      className="btn"
+                      variant="contained"
+                      color="warning"
+                      onClick={() => buyNow(product)}
+                    >
+                      <ShoppingBagIcon />
+                      Buy now
+                    </Button>
+                  </span>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
