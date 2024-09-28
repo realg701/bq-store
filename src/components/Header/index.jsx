@@ -6,7 +6,7 @@ import Dashboard from "../Dashboard";
 import "./Header.css";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-import HomeIcon from "@mui/icons-material/Home";
+// import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
@@ -26,11 +26,11 @@ export default function Header() {
             </span>
             <Link to={"/"}>
               <IconButton>
-                <HomeIcon fontSize="large" style={{ color: "#ffff90" }} />
+                {/* <HomeIcon fontSize="large" style={{ color: "#ffff90" }} /> */}
                 <span
                   style={{
                     color: "#ffff90",
-                    marginLeft: "10px",
+                    // marginLeft: "10px",
                     fontSize: "28px",
                   }}
                 >
