@@ -108,13 +108,12 @@ export default function AddProduct() {
       body: JSON.stringify(productData),
     });
     console.log("Response", response);
+    if (response.status === 200) navigate("/");
   };
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/login");
-    }
+    if (!user) return navigate("/login");
   });
 
   return (
