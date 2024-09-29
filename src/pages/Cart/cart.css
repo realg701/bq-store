@@ -1,4 +1,4 @@
-.cart {
+/* .cart {
   margin: 70px 0;
   padding: 10px;
   text-align: center;
@@ -43,6 +43,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #dfdfdf;
   & .quantity-btns {
     display: flex;
   }
@@ -51,13 +52,13 @@
   }
 }
 
-.checkout {
+.checkout-btn {
   margin-top: 10px !important;
 }
 
 @media (width < 600px) {
   .cart {
-    margin: 50px 0;
+    margin: 60px 0;
     & h1 {
       font-size: x-large;
       margin-bottom: 16px;
@@ -86,4 +87,4 @@
       }
     }
   }
-}
+} */
