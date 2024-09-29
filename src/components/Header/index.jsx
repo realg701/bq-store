@@ -53,7 +53,7 @@ export default function Header() {
             ) : (
               <Dashboard />
             )}
-            <Link to={"/cart"}>
+            <Link to={"/checkout"}>
               <IconButton>
                 <Badge
                   badgeContent={String(cartItems.length)}
