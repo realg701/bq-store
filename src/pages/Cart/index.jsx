@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
 import "./cart.css";
@@ -12,18 +12,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 export default function Cart() {
   const navigate = useNavigate();
-
-  const cartContext = useContext(CartContext);
-  const { cartItems, setCartItems, removeFromCart } = cartContext;
+  const cartContext = React.useContext(CartContext);
+  const { cartItems, handleQuantity, removeFromCart } = cartContext;
   const user = JSON.parse(localStorage.getItem("user"));
-  const [number, setNumber] = useState(1); //number of item
-
-  const updateQuantity = (id, value) => {
-    cartItems.map((item) => item.id === id) &&
-      setNumber((prevState) => prevState + value);
-  };
-
-  // this is part of other files return statement
+  console.log(cartItems);
 
   return (
     <div className="cart">
@@ -44,17 +36,17 @@ export default function Cart() {
                   <Button
                     variant="text"
                     color="warning"
-                    onClick={(item) => item.qty - 1}
+                    onClick={() => handleQuantity(item, -1)}
                   >
                     <RemoveCircleIcon />
                   </Button>
                   <p>
-                    Qty. {item.qty} | Rs. {item.price}
+                    Qty. {item.quantity} | Rs. {item.price}
                   </p>
                   <Button
                     variant="text"
                     color="success"
-                    onClick={() => updateQuantity(item._id, 1)}
+                    onClick={() => handleQuantity(item, 1)}
                   >
                     <AddCircleIcon />
                   </Button>
@@ -72,7 +64,7 @@ export default function Cart() {
           ))}
           {user ? (
             <Button
-              className="checkout"
+              className="checkout-btn"
               onClick={() => navigate("/checkout")}
               variant="contained"
               startIcon={<ShoppingCartCheckoutIcon />}
@@ -83,7 +75,7 @@ export default function Cart() {
             </Button>
           ) : (
             <Button
-              className="checkout"
+              className="checkout-btn"
               onClick={() => navigate("/login")}
               variant="contained"
               startIcon={<LoginIcon />}
