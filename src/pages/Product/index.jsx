@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
+import ProductContext from "../../Context/ProductContext";
 import "./product.css";
 import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -12,18 +13,26 @@ import { BE_URL } from "../../constants/url";
 
 export default function Product() {
   const navigate = useNavigate();
-  const [singleProduct, setSingleProduct] = useState({});
-  const cartContext = useContext(CartContext);
-  const { addToCart, buyNow } = cartContext;
-  const [user, setUser] = useState(null);
-  const token = JSON.parse(localStorage.getItem("token"));
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
+  const token = JSON.parse(localStorage.getItem("token"));
+  // Contexts
+  const cartContext = React.useContext(CartContext);
+  const { addToCart, buyNow } = cartContext;
+  const productContext = React.useContext(ProductContext);
+  const { allProducts } = productContext;
+  // States
+  const [loading, setLoading] = React.useState(false);
+  const [singleProduct, setSingleProduct] = React.useState({});
+  const [user, setUser] = React.useState(null);
+  // Find Single Product From ProductContext
   const fetchSingleProduct = async () => {
+    if (!allProducts.length) return navigate("/");
     setLoading(true);
-    const response = await fetch(`${BE_URL}/products/${id}`);
-    const data = await response.json();
-    setSingleProduct(data.product);
+    const findProduct = allProducts.find((product) => product._id === id);
+    setSingleProduct(findProduct);
+    // const response = await fetch(`${BE_URL}/products/${id}`);
+    // const data = await response.json();
+    // setSingleProduct(data.product);
     setLoading(false);
   };
 
@@ -39,7 +48,7 @@ export default function Product() {
     navigate("/");
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchSingleProduct();
     const isUser = JSON.parse(localStorage.getItem("user"));
     if (isUser) {
