@@ -1,20 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import MuiAlert from "@mui/material/Alert";
+import * as Material from "@mui/material";
+import * as Icon from "@mui/icons-material";
 import { BE_URL } from "../../constants/url";
 import CartContext from "../../Context/CartContext";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-import CircularProgress from "@mui/material/CircularProgress";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-import HomeIcon from "@mui/icons-material/Home";
-import LoginIcon from "@mui/icons-material/Login";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import "./checkout.css";
 // import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -136,7 +127,7 @@ const CheckOut = () => {
               alignItems: "center",
             }}
           >
-            <CircularProgress color="secondary" />
+            <Material.CircularProgress color="secondary" />
           </div>
         </div>
       ) : (
@@ -146,16 +137,16 @@ const CheckOut = () => {
               <div className="cart" style={{ marginBottom: 0 }}>
                 <h1>Cart Items</h1>
                 <div className="cart-container">
-                  <Button
+                  <Material.Button
                     className="checkout-btn scroll-down"
                     variant="contained"
                     size="large"
-                    color="info"
-                    startIcon={<ExpandCircleDownIcon />}
+                    color="secondary"
+                    startIcon={<Icon.ExpandCircleDown />}
                     onClick={goToBottom}
                   >
                     Scroll Down
-                  </Button>
+                  </Material.Button>
 
                   {cartItems.map((item, itemIndex) => (
                     <div className="cart-card" key={itemIndex}>
@@ -180,32 +171,32 @@ const CheckOut = () => {
                       </div>
                       <div className="cart-btns">
                         <div className="quantity-btns">
-                          <Button
+                          <Material.Button
                             variant="text"
                             color="warning"
                             onClick={() => handleQuantity(item, -1)}
                           >
-                            <RemoveCircleIcon />
-                          </Button>
+                            <Icon.RemoveCircle />
+                          </Material.Button>
                           <p>
                             Qty. {item.quantity} | Rs. {item.price}
                           </p>
-                          <Button
+                          <Material.Button
                             variant="text"
                             color="success"
                             onClick={() => handleQuantity(item, 1)}
                           >
-                            <AddCircleIcon />
-                          </Button>
+                            <Icon.AddCircle />
+                          </Material.Button>
                         </div>
-                        <Button
+                        <Material.Button
                           className="remove-item"
                           // variant="contained"
                           color="error"
                           onClick={() => removeFromCart(item.title)}
                         >
-                          <RemoveShoppingCartIcon />
-                        </Button>
+                          <Icon.RemoveShoppingCart />
+                        </Material.Button>
                       </div>
                     </div>
                   ))}
@@ -216,7 +207,7 @@ const CheckOut = () => {
                 <div className="cart-container">
                   {checkOutTextField.map((data, index) => (
                     <div className="cart-card checkout-card" key={index}>
-                      <TextField
+                      <Material.TextField
                         required
                         value={data.value}
                         onChange={handleChange}
@@ -228,27 +219,27 @@ const CheckOut = () => {
                     </div>
                   ))}
                   {user ? (
-                    <Button
+                    <Material.Button
                       className="checkout-btn"
                       onClick={handleSubmit}
                       variant="contained"
                       color="success"
-                      startIcon={<AddIcon />}
+                      startIcon={<Icon.ShoppingCartCheckout />}
                       size="large"
                     >
-                      Order Submit
-                    </Button>
+                      Place Order
+                    </Material.Button>
                   ) : (
-                    <Button
+                    <Material.Button
                       className="checkout-btn"
                       onClick={() => navigate("/login")}
                       variant="contained"
-                      startIcon={<LoginIcon />}
+                      startIcon={<Icon.Login />}
                       color="warning"
                       size="large"
                     >
                       Please Login
-                    </Button>
+                    </Material.Button>
                   )}
                 </div>
               </div>
@@ -258,22 +249,22 @@ const CheckOut = () => {
               <h1>Cart Items</h1>
               <div className="cart-container">
                 <p>{message}</p>
-                <Button
+                <Material.Button
                   className="checkout-btn"
                   onClick={() => navigate("/")}
                   variant="contained"
-                  startIcon={<HomeIcon />}
+                  startIcon={<Icon.Home />}
                   color="warning"
                   size="large"
                 >
                   Back to Home
-                </Button>
+                </Material.Button>
               </div>
             </div>
           )}
         </>
       )}
-      <Snackbar
+      <Material.Snackbar
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}
@@ -285,7 +276,7 @@ const CheckOut = () => {
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           Empty Fields!
         </Alert>
-      </Snackbar>
+      </Material.Snackbar>
     </>
   );
 };
