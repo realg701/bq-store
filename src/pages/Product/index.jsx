@@ -1,15 +1,12 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import * as Material from "@mui/material";
+import * as Icon from "@mui/icons-material";
+import { BE_URL } from "../../constants/url";
 import CartContext from "../../Context/CartContext";
 import ProductContext from "../../Context/ProductContext";
 import "./product.css";
-import Button from "@mui/material/Button";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import CircularProgress from "@mui/material/CircularProgress";
-import { BE_URL } from "../../constants/url";
 
 export default function Product() {
   const navigate = useNavigate();
@@ -59,9 +56,30 @@ export default function Product() {
   return (
     <>
       <div className="container">
+        <div
+          className="header-image"
+          style={{ marginTop: 100, paddingInline: 30 }}
+        >
+          {/* <img
+            src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
+            alt="hero image"
+          /> */}
+          <Link to={"/"}>Home</Link>
+          {" / "}
+          <Link to={`/category/${singleProduct.category?.toLowerCase()}`}>
+            {singleProduct.category?.charAt(0).toUpperCase() +
+              singleProduct.category?.slice(1)}
+          </Link>{" "}
+          {" / "}
+          <Link>
+            {singleProduct.title?.charAt(0).toUpperCase() +
+              singleProduct.title?.slice(1)}
+          </Link>
+        </div>
+
         <div className="product-flex">
           {loading ? (
-            <CircularProgress color="secondary" />
+            <Material.CircularProgress color="secondary" />
           ) : (
             <>
               <div className="product-container">
@@ -71,31 +89,29 @@ export default function Product() {
                   alt=""
                 />
                 <div className="product-title">
-                  {user ? (
+                  {user && (
                     <div className="product-btn">
                       <abbr title="Edit Product">
-                        <Button
+                        <Material.Button
                           variant="contained"
                           color="primary"
-                          startIcon={<EditIcon />}
+                          startIcon={<Icon.Edit />}
                           onClick={() => navigate(`/products/edit/${id}`)}
                         >
                           Edit Product
-                        </Button>
+                        </Material.Button>
                       </abbr>
                       <abbr title="Delete Product">
-                        <Button
+                        <Material.Button
                           variant="contained"
                           color="error"
-                          endIcon={<DeleteForeverIcon />}
+                          endIcon={<Icon.DeleteForever />}
                           onClick={handleDelete}
                         >
                           Delete Product
-                        </Button>
+                        </Material.Button>
                       </abbr>
                     </div>
-                  ) : (
-                    <></>
                   )}
                   <p>{singleProduct.title}</p>
                   <p>Seller: {singleProduct.seller}</p>
@@ -103,24 +119,24 @@ export default function Product() {
                   <p>Rs. {singleProduct.price}</p>
                   <div className="product-btn">
                     <abbr title="Add to Cart">
-                      <Button
+                      <Material.Button
                         variant="contained"
                         color="success"
-                        startIcon={<AddShoppingCartIcon />}
+                        startIcon={<Icon.AddShoppingCart />}
                         onClick={() => addToCart(singleProduct)}
                       >
                         Add to Cart
-                      </Button>
+                      </Material.Button>
                     </abbr>
                     <abbr title="Buy Now">
-                      <Button
+                      <Material.Button
                         variant="contained"
                         color="warning"
-                        endIcon={<ShoppingBagIcon />}
+                        endIcon={<Icon.ShoppingBag />}
                         onClick={() => buyNow(name)}
                       >
                         Buy now
-                      </Button>
+                      </Material.Button>
                     </abbr>
                   </div>
                 </div>
