@@ -57,6 +57,11 @@ a:hover {
       border-radius: 0 0 10px 0;
     }
   }
+  &:hover {
+    img {
+      transform: rotate(5deg);
+    }
+  }
 }
 
 .products-card {
@@ -71,9 +76,6 @@ a:hover {
     height: 185px;
     object-fit: contain;
     transition: all 300ms;
-    &:hover {
-      transform: scale(1.2);
-    }
   }
   & p {
     overflow: hidden;
