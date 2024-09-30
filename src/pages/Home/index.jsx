@@ -49,14 +49,14 @@ export default function Home() {
                   <Link to={`/products/${product._id}`}>
                     <div className="products-card">
                       <img src={product.image} alt={product.title} />
-                      <p>
-                        {product.title} | {product.category}
-                      </p>
+                      <p>{product.title}</p>
                     </div>
                   </Link>
                   <span>
                     <p>Rs. {product.price} </p>
-                    <p>{product.category}</p>
+                    <Link to={`/category/${product.category.toLowerCase()}`}>
+                      <p>{product.category}</p>
+                    </Link>
                   </span>
                   <span>
                     <Button
