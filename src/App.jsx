@@ -5,6 +5,7 @@ import { ProductContainer } from "./Context/ProductContext";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
+import Category from "./pages/Category";
 import CheckOut from "./pages/CheckOut";
 import Orders from "./pages/Orders";
 // import Cart from "./pages/Cart";
@@ -24,6 +25,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products/:id" element={<Product />} />
+              <Route path="/category/:category" element={<Category />} />
               {/* <Route path="/cart" element={<Cart />} /> */}
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
