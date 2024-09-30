@@ -62,7 +62,7 @@ const CheckOut = () => {
 
   const productData = cartItems.map((item) => {
     return {
-      id: item._id,
+      _id: item._id,
       title: item.title,
       image: item.image,
       price: item.price,
@@ -135,8 +135,21 @@ const CheckOut = () => {
           {cartItems.length ? (
             <>
               <div className="cart" style={{ marginBottom: 0 }}>
-                <h1>Cart Items</h1>
                 <div className="cart-container">
+                  <h1>Place Order</h1>
+                  {checkOutTextField.map((data, index) => (
+                    <div className="cart-card checkout-card" key={index}>
+                      <Material.TextField
+                        required
+                        value={data.value}
+                        onChange={handleChange}
+                        name={data.name}
+                        label={data.label}
+                        variant="filled"
+                        color="secondary"
+                      />
+                    </div>
+                  ))}
                   <Material.Button
                     className="checkout-btn scroll-down"
                     variant="contained"
@@ -147,7 +160,11 @@ const CheckOut = () => {
                   >
                     Scroll Down
                   </Material.Button>
-
+                </div>
+              </div>
+              <div className="cart checkout" style={{ marginTop: 0 }}>
+                <div className="cart-container">
+                  <h1>Cart Items</h1>
                   {cartItems.map((item, itemIndex) => (
                     <div className="cart-card" key={itemIndex}>
                       <div className="cart-content">
@@ -158,15 +175,12 @@ const CheckOut = () => {
                           <Link to={`/products/${item._id}`}>
                             <p>{item.title}</p>
                           </Link>
-
-                          <p>
-                            Category:{" "}
-                            <Link
-                              to={`/products/${item.category.toLowerCase()}`}
-                            >
+                          <Link to={`/products/${item.category.toLowerCase()}`}>
+                            <p>
+                              <Icon.Class fontSize="small" />
                               {item.category}
-                            </Link>
-                          </p>
+                            </p>
+                          </Link>
                         </div>
                       </div>
                       <div className="cart-btns">
@@ -191,31 +205,12 @@ const CheckOut = () => {
                         </div>
                         <Material.Button
                           className="remove-item"
-                          // variant="contained"
                           color="error"
                           onClick={() => removeFromCart(item.title)}
                         >
                           <Icon.RemoveShoppingCart />
                         </Material.Button>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="cart checkout" style={{ marginTop: 0 }}>
-                <h1>Place Order</h1>
-                <div className="cart-container">
-                  {checkOutTextField.map((data, index) => (
-                    <div className="cart-card checkout-card" key={index}>
-                      <Material.TextField
-                        required
-                        value={data.value}
-                        onChange={handleChange}
-                        name={data.name}
-                        label={data.label}
-                        variant="filled"
-                        color="secondary"
-                      />
                     </div>
                   ))}
                   {user ? (
