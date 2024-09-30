@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import MuiAlert from "@mui/material/Alert";
 import * as Material from "@mui/material";
 import * as Icon from "@mui/icons-material";
+import MuiAlert from "@mui/material/Alert";
 import { BE_URL } from "../../constants/url";
 import CartContext from "../../Context/CartContext";
 import "./checkout.css";
