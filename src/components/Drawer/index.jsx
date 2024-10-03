@@ -11,6 +11,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { Link } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import "./drawer.css";
 
 export default function Drawer() {
   const [state, setState] = React.useState({
@@ -36,8 +39,18 @@ export default function Drawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {/* <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+      <List>
+        <span className="drawer-left">
+          <Button onClick={toggleDrawer(anchor, true)}>
+            <MenuIcon fontSize="large" color="error" />
+          </Button>
+          <img src="/svgs/logo.svg" alt="" width={32} height={32} />
+          <span>
+            <strong>BQ</strong> Store
+          </span>
+        </span>
+        <IconButton></IconButton>
+        {["Profile", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -47,10 +60,10 @@ export default function Drawer() {
             </ListItemButton>
           </ListItem>
         ))}
-      </List> */}
+      </List>
       <Divider />
-      {/* <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
+      <List>
+        {["History", "Trash", "Settings"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -60,7 +73,7 @@ export default function Drawer() {
             </ListItemButton>
           </ListItem>
         ))}
-      </List> */}
+      </List>
     </Box>
   );
 
@@ -68,8 +81,12 @@ export default function Drawer() {
     <div>
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>
-            <MenuIcon fontSize="large" style={{ color: "#ffff90" }} />
+          <Button>
+            <MenuIcon
+              onClick={toggleDrawer(anchor, true)}
+              fontSize="large"
+              style={{ color: "#ffff90" }}
+            />
           </Button>
           <SwipeableDrawer
             anchor={anchor}
