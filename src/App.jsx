@@ -38,7 +38,7 @@ export default function App() {
             }
           >
             <Routes>
-              <Route path="*" exact={true} element={<My404 />} />
+              <Route path=":my404" exact={true} element={<My404 />} />
               <Route path="/" element={<Home />} />
               <Route path="/products/:id" element={<Product />} />
               <Route path="/category/:category" element={<Category />} />
