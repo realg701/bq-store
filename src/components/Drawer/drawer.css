@@ -1,0 +1,13 @@
+.drawer-left {
+  display: flex;
+  align-items: center;
+  margin: 4px 0 0 10px;
+  & img {
+    margin: 0 0 0 8px;
+  }
+  & span {
+    margin: 0 0 4px 5px;
+    color: black;
+    font-size: 30px;
+  }
+}
