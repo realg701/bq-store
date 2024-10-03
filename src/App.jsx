@@ -14,8 +14,16 @@ import Register from "./pages/Register";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 import Footer from "./components/Footer";
+import My404 from "./pages/My404";
 
 export default function App() {
+  const initialScrollTo = (value) => {
+    window.scrollTo({
+      top: value,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -23,6 +31,7 @@ export default function App() {
           <ProductContainer>
             <Header />
             <Routes>
+              <Route path="*" exact={true} element={<My404 />} />
               <Route path="/" element={<Home />} />
               <Route path="/products/:id" element={<Product />} />
               <Route path="/category/:category" element={<Category />} />
@@ -31,7 +40,10 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/products/edit/:id" element={<EditProduct />} />
-              <Route path="/checkout" element={<CheckOut />} />
+              <Route
+                path="/checkout"
+                element={<CheckOut initialScrollTo={initialScrollTo} />}
+              />
               <Route path="/orders" element={<Orders />} />
             </Routes>
             <Footer />
