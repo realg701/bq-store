@@ -115,9 +115,6 @@ a:hover {
     & img {
       max-width: 140px;
       max-height: 140px;
-      &:hover {
-        transform: unset;
-      }
     }
     & p {
       margin: 8px 0;
