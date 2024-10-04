@@ -1,21 +1,23 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Material from "@mui/material";
 import * as Icon from "@mui/icons-material";
+import { capitalized } from "../constants";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const My404 = () => {
   const navigate = useNavigate();
   const { my404 } = useParams();
+  const { id } = useParams();
+  console.log(id);
   return (
     <>
-      <div
-        className="header-image"
+      <Material.Breadcrumbs
+        aria-label="breadcrumb"
         style={{ marginTop: 100, paddingInline: 30 }}
       >
         <Link to={"/"}>Home</Link>
-        {" / "}
-        <Link>404</Link>
-      </div>
-
+        <Link>{capitalized(my404) || id}</Link>
+      </Material.Breadcrumbs>
       <div className="cart">
         <div className="cart-container">
           <h1>Page Not Found</h1>
