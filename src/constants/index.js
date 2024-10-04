@@ -1,6 +1,32 @@
-export const checkOutTextField = [
-  { value: order.name, name: "name", label: "Name" },
-  { value: order.phoneNumber, name: "phoneNumber", label: "Phone no." },
-  { value: order.address, name: "address", label: "Address" },
-  { value: order.email, name: "email", label: "Email" },
+import _ from "lodash";
+
+export const capitalized = (value) =>
+  value
+    .split(" ")
+    .map((str) => (str = str.charAt(0).toUpperCase() + str.slice(1)))
+    .join(" ");
+
+export const options = [
+  {
+    country: "pakistan",
+    language: "en-PK",
+    preset: {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+      style: "currency",
+      currency: "PKR",
+    },
+  },
+  {
+    country: "india",
+    language: "en-IN",
+    preset: {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+      style: "currency",
+      currency: "INR",
+    },
+  },
 ];
+
+export const index = _.findKey(options, (v) => v.country === "pakistan");
