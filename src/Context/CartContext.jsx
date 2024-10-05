@@ -12,6 +12,8 @@ export const CartContainer = ({ children }) => {
     if (existingProduct) {
       return;
     }
+    if (!newItem.quantity || newItem.quantity < 1) newItem.quantity = 1;
+
     const items = [...cartItems, newItem];
     setCartItems(items);
   };
@@ -32,6 +34,10 @@ export const CartContainer = ({ children }) => {
     setCartItems(updatedProducts);
   };
 
+  const handleEstimated = (pr) => pr.price * pr.quantity;
+
+  const total = cartItems.reduce((sum, i) => (sum += i.quantity * i.price), 0);
+
   return (
     <CartContext.Provider
       value={{
@@ -40,6 +46,8 @@ export const CartContainer = ({ children }) => {
         handleQuantity,
         addToCart,
         removeFromCart,
+        handleEstimated,
+        total,
       }}
     >
       {children}
