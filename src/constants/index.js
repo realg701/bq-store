@@ -1,5 +1,12 @@
 import _ from "lodash";
 
+export const initialScrollTo = (value) => {
+  window.scrollTo({
+    top: value,
+    behavior: "smooth",
+  });
+};
+
 export const capitalized = (value) =>
   value
     .split(" ")
@@ -9,7 +16,7 @@ export const capitalized = (value) =>
 export const options = [
   {
     country: "pakistan",
-    language: "en-PK",
+    language: "en-IN",
     preset: {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
@@ -29,4 +36,5 @@ export const options = [
   },
 ];
 
-export const index = _.findKey(options, (v) => v.country === "pakistan");
+export const findCountry = (country) =>
+  _.find(options, (o) => o.country === country);
