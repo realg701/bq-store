@@ -18,13 +18,6 @@ import My404 from "./components/My404";
 import { CircularProgress } from "@mui/material";
 
 export default function App() {
-  const initialScrollTo = (value) => {
-    window.scrollTo({
-      top: value,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <BrowserRouter>
       <CartContainer>
@@ -47,10 +40,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/products/edit/:id" element={<EditProduct />} />
-              <Route
-                path="/checkout"
-                element={<CheckOut initialScrollTo={initialScrollTo} />}
-              />
+              <Route path="/checkout" element={<CheckOut />} />
               <Route path="/orders" element={<Orders />} />
             </Routes>
           </Suspense>
