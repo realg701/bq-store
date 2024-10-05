@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import * as Material from "@mui/material";
+import * as Icon from "@mui/icons-material";
 import ProductContext from "../../Context/ProductContext";
 import CartContext from "../../Context/CartContext";
+import { capitalized, findCountry, initialScrollTo } from "../../constants";
 
 export default function Category() {
+  const { language, preset } = findCountry("pakistan");
   const { category } = useParams();
   const navigate = useNavigate();
   // Product context where all products are stored
@@ -21,35 +22,22 @@ export default function Category() {
     (item) => item.category.toLowerCase() === category
   );
 
-  const options = [
-    "en-PK",
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-      style: "currency",
-      currency: "PKR",
-    },
-  ];
-
   React.useEffect(() => {
-    if (!allProducts.length) navigate("/");
+    if (!allProducts.length) return navigate("/");
+    initialScrollTo(0);
   }, []);
 
   return (
     <>
+      <Material.Breadcrumbs
+        aria-label="breadcrumb"
+        style={{ marginTop: 100, paddingInline: 30 }}
+      >
+        <Link to={"/"}>Home</Link>
+        <Link>{capitalized(category)}</Link>
+      </Material.Breadcrumbs>
       <div className="home-container">
-        <div
-          className="header-image"
-          style={{ marginTop: 100, paddingInline: 30 }}
-        >
-          {/* <img
-            src="https://www.jdmedia.co.za/images/carousel/Ecommerce-Banner-1920.jpg"
-            alt="hero image"
-          /> */}
-          <Link to={"/"}>Home</Link>
-          {" / "}
-          <Link>{category.charAt(0).toUpperCase() + category.slice(1)}</Link>
-        </div>
+        <h1 style={{ textAlign: "center" }}>{capitalized}</h1>
         <div className="container">
           {filteredProducts.map((product) => (
             <div className="products-container" key={product._id}>
@@ -60,30 +48,30 @@ export default function Category() {
                 </div>
               </Link>
               <span>
-                <p>{product.price.toLocaleString(options[0], options[1])} </p>
+                <p>{product.price.toLocaleString(language, preset)}</p>
                 <Link to={`/category/${product.category.toLowerCase()}`}>
                   <p>{product.category}</p>
                 </Link>
               </span>
               <span>
-                <Button
+                <Material.Button
                   className="btn"
                   variant="contained"
                   color="success"
                   onClick={() => addToCart(product)}
                 >
-                  <AddShoppingCartIcon />
+                  <Icon.AddShoppingCart />
                   Add to Cart
-                </Button>
-                <Button
+                </Material.Button>
+                <Material.Button
                   className="btn"
                   variant="contained"
                   color="warning"
                   onClick={() => buyNow(product)}
                 >
-                  <ShoppingBagIcon />
+                  <Icon.ShoppingBag />
                   Buy now
-                </Button>
+                </Material.Button>
               </span>
             </div>
           ))}
