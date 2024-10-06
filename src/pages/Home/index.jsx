@@ -8,25 +8,25 @@ import ProductContext from "../../Context/ProductContext";
 import { Button } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import { findCountry } from "../../constants";
 
 export default function Home() {
+  const { language, preset } = findCountry("pakistan");
   const cartContext = React.useContext(CartContext);
   const { addToCart, buyNow } = cartContext;
   const productContext = React.useContext(ProductContext);
   const { allProducts, setAllProducts } = productContext;
-  // const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  console.log(allProducts);
+
   React.useEffect(() => {
     setLoading(true);
     fetch(`${BE_URL}/products/all`)
       .then((res) => res.json())
       .then((data) => {
-        // setProducts(data.products);
         setAllProducts(data.products);
-        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
   }, [setAllProducts]);
   return (
     <>
@@ -43,8 +43,9 @@ export default function Home() {
               <CircularProgress color="secondary" />
             </div>
           ) : (
-            <>
-              {allProducts.map((product) => (
+            allProducts
+              .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
+              .map((product) => (
                 <div className="products-container" key={product._id}>
                   <Link to={`/products/${product._id}`}>
                     <div className="products-card">
@@ -53,7 +54,7 @@ export default function Home() {
                     </div>
                   </Link>
                   <span>
-                    <p>Rs. {product.price} </p>
+                    <p>{product.price.toLocaleString(language, preset)}</p>
                     <Link to={`/category/${product.category.toLowerCase()}`}>
                       <p>{product.category}</p>
                     </Link>
@@ -79,8 +80,7 @@ export default function Home() {
                     </Button>
                   </span>
                 </div>
-              ))}
-            </>
+              ))
           )}
         </div>
       </div>
