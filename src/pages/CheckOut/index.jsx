@@ -1,21 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Material from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
-import { BE_URL } from "../../constants/url";
 import CartContext from "../../Context/CartContext";
+import ProductContext from "../../Context/ProductContext";
+import { handleSubmit } from "../../libs/actions/checkout.actions";
+import { findCountry, initialScrollTo } from "../../constants";
 import "./checkout.css";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 const CheckOut = () => {
+  const { language, preset } = findCountry("pakistan");
   const navigate = useNavigate();
   const cartContext = React.useContext(CartContext);
-  const { cartItems, setCartItems, handleQuantity, removeFromCart } =
+  const productContext = React.useContext(ProductContext);
+  const { allProducts } = productContext;
+  const { cartItems, setCartItems, handleQuantity, removeFromCart, total } =
     cartContext;
-  // const token = JSON.parse(localStorage.getItem("token"));
+  const token = JSON.parse(localStorage.getItem("token"));
   const user = JSON.parse(localStorage.getItem("user"));
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -39,18 +41,18 @@ const CheckOut = () => {
   });
 
   const checkOutTextField = [
-    { value: user?.userName || order.name, name: "name", label: "Name" },
+    { value: order.name, name: "name", label: "Name" },
     {
-      value: user?.phoneNumber || order.phoneNumber,
+      value: order.phoneNumber,
       name: "phoneNumber",
       label: "Phone no.",
     },
     {
-      value: user?.address || order.address,
+      value: order.address,
       name: "address",
       label: "Address",
     },
-    { value: user?.email || order.email, name: "email", label: "Email" },
+    { value: order.email, name: "email", label: "Email" },
   ];
 
   const handleChange = (e) => {
@@ -60,73 +62,48 @@ const CheckOut = () => {
     });
   };
 
-  const productData = cartItems.map((item) => {
-    return {
-      _id: item._id,
-      title: item.title,
-      image: item.image,
-      price: item.price,
-      category: item.category,
-      seller: item.seller,
-      quantity: item.quantity,
-    };
-  });
-
-  const handleSubmit = async () => {
-    if (!order.name || !order.phoneNumber || !order.address || !order.email)
-      return setOpen(true);
-    setLoading(true);
-    fetch(`${BE_URL}/orders/order`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: order.name,
-        phoneNumber: order.phoneNumber,
-        address: order.address,
-        email: order.email,
-        products: productData,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("CheckOut:", data);
-        if (data.status === "success") {
-          setCartItems([]);
-          setMessage("Order Placed Successfully");
-          setLoading(false);
-        }
-        if (data.status === "error") {
-          setLoading(false);
-        }
-        if (data.status === "empty") {
-          setMessage("Your Cart Is Empty");
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+  const userData = {
+    token: token,
+    name: order.name,
+    phoneNumber: order.phoneNumber,
+    address: order.address,
+    email: order.email,
+    total: total,
+    products: cartItems.map((item) => {
+      return {
+        _id: item._id,
+        title: item.title,
+        image: item.image,
+        price: item.price,
+        category: item.category,
+        seller: item.seller,
+        quantity: item.quantity,
+      };
+    }),
   };
 
-  const goToBottom = () => {
-    window.scrollTo({
-      top: window.screen.height,
-      behavior: "smooth",
-    });
-  };
+  React.useEffect(() => {
+    initialScrollTo(0);
+  }, []);
 
   return (
     <>
+      <Material.Breadcrumbs
+        aria-label="breadcrumb"
+        style={{ marginTop: 100, paddingInline: 30 }}
+      >
+        <Link to={"/"}>Home</Link>
+        <Link>Cart</Link>
+      </Material.Breadcrumbs>
       {loading ? (
         <div className="cart">
-          <h1>Loading...</h1>
           <div
             className="cart-container"
             style={{
               alignItems: "center",
             }}
           >
+            <h1>Loading...</h1>
             <Material.CircularProgress color="secondary" />
           </div>
         </div>
@@ -155,8 +132,8 @@ const CheckOut = () => {
                     variant="contained"
                     size="large"
                     color="secondary"
-                    startIcon={<Icon.ExpandCircleDown />}
-                    onClick={goToBottom}
+                    startIcon={<Icon.KeyboardDoubleArrowDown />}
+                    onClick={() => initialScrollTo(window.screen.height + 600)}
                   >
                     Scroll Down
                   </Material.Button>
@@ -175,7 +152,7 @@ const CheckOut = () => {
                           <Link to={`/products/${item._id}`}>
                             <p>{item.title}</p>
                           </Link>
-                          <Link to={`/products/${item.category.toLowerCase()}`}>
+                          <Link to={`/category/${item.category.toLowerCase()}`}>
                             <p>
                               <Icon.Class fontSize="small" />
                               {item.category}
@@ -193,12 +170,16 @@ const CheckOut = () => {
                             <Icon.RemoveCircle />
                           </Material.Button>
                           <p>
-                            Qty. {item.quantity} | Rs. {item.price}
+                            Qty. {item.quantity} |{" "}
+                            {(item.price * item.quantity).toLocaleString(
+                              language,
+                              preset
+                            )}
                           </p>
                           <Material.Button
                             variant="text"
                             color="success"
-                            onClick={() => handleQuantity(item, 1)}
+                            onClick={() => handleQuantity(item, 1, allProducts)}
                           >
                             <Icon.AddCircle />
                           </Material.Button>
@@ -213,10 +194,25 @@ const CheckOut = () => {
                       </div>
                     </div>
                   ))}
+                  <div className="estimated">
+                    <p>
+                      Estimated total:{" "}
+                      <span>{total.toLocaleString(language, preset)}</span>
+                    </p>
+                  </div>
                   {user ? (
                     <Material.Button
+                      disabled={loading}
                       className="checkout-btn"
-                      onClick={handleSubmit}
+                      onClick={() =>
+                        handleSubmit(
+                          userData,
+                          setOpen,
+                          setLoading,
+                          setCartItems,
+                          setMessage
+                        )
+                      }
                       variant="contained"
                       color="success"
                       startIcon={<Icon.ShoppingCartCheckout />}
@@ -241,8 +237,8 @@ const CheckOut = () => {
             </>
           ) : (
             <div className="cart">
-              <h1>Cart Items</h1>
               <div className="cart-container">
+                <h1>Cart Items</h1>
                 <p>{message}</p>
                 <Material.Button
                   className="checkout-btn"
