@@ -1,13 +1,6 @@
 .drawer-left {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 4px 0 0 10px;
-  & img {
-    margin: 0 0 0 8px;
-  }
-  & span {
-    margin: 0 0 4px 5px;
-    color: black;
-    font-size: 30px;
-  }
+  margin: 12px 0 0 -28px;
 }
