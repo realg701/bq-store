@@ -1,21 +1,26 @@
 import { useState, createContext } from "react";
+import { useNavigate } from "react-router";
 
 const CartContext = createContext({});
 
 export const CartContainer = ({ children }) => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (newItem) => {
     const existingProduct = cartItems.find(
       (Product) => Product.title === newItem.title
     );
-    if (existingProduct) {
-      return;
-    }
+    if (existingProduct) return;
     if (!newItem.quantity || newItem.quantity < 1) newItem.quantity = 1;
-
     const items = [...cartItems, newItem];
     setCartItems(items);
+  };
+
+  const buyNow = (newItem) => {
+    if (!newItem.quantity || newItem.quantity < 1) newItem.quantity = 1;
+    setCartItems([newItem]);
+    return navigate("/checkout");
   };
 
   const removeFromCart = (name) => {
@@ -45,6 +50,7 @@ export const CartContainer = ({ children }) => {
         setCartItems,
         handleQuantity,
         addToCart,
+        buyNow,
         removeFromCart,
         handleEstimated,
         total,
