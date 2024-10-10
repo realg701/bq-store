@@ -29,23 +29,7 @@ export default function Header() {
     <>
       <div className="header">
         <div className="header-align">
-          <div className="header-icon">
-            <Drawer />
-            <Link to={"/"}>
-              <IconButton>
-                <img src="/svgs/logo.svg" alt="" width={32} height={32} />
-                <span
-                  style={{
-                    color: "#ffff90",
-                    marginLeft: "4px",
-                    fontSize: "28px",
-                  }}
-                >
-                  <strong>BQ</strong> Store
-                </span>
-              </IconButton>
-            </Link>
-          </div>
+          <Drawer />
           <div className="header-icon">
             {!user ? (
               <div>
