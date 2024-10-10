@@ -39,17 +39,28 @@ export default function Drawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <div className="drawer-left">
+        <MenuIcon
+          onClick={toggleDrawer(anchor, true)}
+          fontSize="large"
+          color="secondary"
+        />
+        <Link to={"/"}>
+          <IconButton color="warning">
+            <img src="/svgs/logo.svg" alt="" width={32} height={32} />
+            <span
+              style={{
+                // color: "#ffff90",
+                marginLeft: "4px",
+                fontSize: "28px",
+              }}
+            >
+              <strong>BQ</strong> Store
+            </span>
+          </IconButton>
+        </Link>
+      </div>
       <List>
-        <span className="drawer-left">
-          <Button onClick={toggleDrawer(anchor, true)}>
-            <MenuIcon fontSize="large" color="error" />
-          </Button>
-          <img src="/svgs/logo.svg" alt="" width={32} height={32} />
-          <span>
-            <strong>BQ</strong> Store
-          </span>
-        </span>
-        <IconButton></IconButton>
         {["Profile", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -80,14 +91,26 @@ export default function Drawer() {
   return (
     <div>
       {["left"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button>
-            <MenuIcon
-              onClick={toggleDrawer(anchor, true)}
-              fontSize="large"
-              style={{ color: "#ffff90" }}
-            />
-          </Button>
+        <div className="header-icon" key={anchor}>
+          <MenuIcon
+            onClick={toggleDrawer(anchor, true)}
+            fontSize="large"
+            style={{ color: "#ffff90" }}
+          />
+          <Link to={"/"}>
+            <IconButton>
+              <img src="/svgs/logo.svg" alt="" width={32} height={32} />
+              <span
+                style={{
+                  color: "#ffff90",
+                  marginLeft: "4px",
+                  fontSize: "28px",
+                }}
+              >
+                <strong>BQ</strong> Store
+              </span>
+            </IconButton>
+          </Link>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}
@@ -96,7 +119,7 @@ export default function Drawer() {
           >
             {list(anchor)}
           </SwipeableDrawer>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   );
