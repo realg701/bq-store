@@ -1,9 +1,9 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Box, LinearProgress, Typography } from "@mui/material";
 import { CartContainer } from "./Context/CartContext";
 import { ProductContainer } from "./Context/ProductContext";
 import { LoaderContainer } from "./Context/LoaderContext";
+import Loader from "./components/Loader";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 const Categories = lazy(() => import("./pages/Categories"));
@@ -17,7 +17,6 @@ const AddProduct = lazy(() => import("./pages/AddProduct"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
 const My404 = lazy(() => import("./components/My404"));
 import Footer from "./components/Footer";
-import Loader from "./components/Loader";
 import NetworkStatusProvider from "./components/NetworkStatusProvider";
 import "./App.css";
 
