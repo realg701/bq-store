@@ -23,3 +23,18 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+.breadcrumbs_title {
+  width: 80dvh;
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+@media (width < 600px) {
+  .breadcrumbs_title {
+    width: 22dvh;
+  }
+}
