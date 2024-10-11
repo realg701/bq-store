@@ -32,17 +32,20 @@ export default function App() {
               <Header />
               <Suspense fallback={fallback}>
                 <Routes>
-                  <Route path="/" element={<Home />} />
                   <Route path="*" exact element={<My404 />} />
-                  <Route path="/products/:id" element={<Product />} />
+                  <Route path="/" element={<Home />} />
                   <Route path="/categories" element={<Categories />} />
                   <Route path="/categories/:category" element={<Category />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="/categories/:category/:id"
+                    element={<Product />}
+                  />
                   <Route path="/products/addproduct" element={<AddProduct />} />
                   <Route path="/products/edit/:id" element={<EditProduct />} />
                   <Route path="/checkout" element={<CheckOut />} />
                   <Route path="/orders" element={<Orders />} />
+                  <Route path="/auth/register" element={<Register />} />
+                  <Route path="/auth/login" element={<Login />} />
                 </Routes>
               </Suspense>
               <Footer />
