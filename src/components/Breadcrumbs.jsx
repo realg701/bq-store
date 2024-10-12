@@ -2,28 +2,25 @@ import { Link } from "react-router-dom";
 import * as Material from "@mui/material";
 import { capitalized } from "../constants";
 
-const BreadCrumbs = ({ category, title, pages }) => {
+const BreadCrumbs = ({ pages, title }) => {
   let val = "";
+
   return (
     <Material.Breadcrumbs
       aria-label="breadcrumb"
-      style={{ marginTop: 90, paddingInline: 30 }}
+      style={{ marginTop: 90, paddingInline: 20 }}
     >
       <Link to={"/"}>Home</Link>
-      {category && (
-        <Link to={`/category/${category}`}>{capitalized(category)}</Link>
-      )}
-      {title && <Link>{title}</Link>}
-
       {pages &&
-        pages?.split("/")?.map((page, i, array) => {
+        pages.split("/")?.map((page, i, array) => {
           val += "/" + array[i];
           return (
-            <Link to={val} key={i}>
+            <Link to={val.toLowerCase()} key={i}>
               {capitalized(page)}
             </Link>
           );
         })}
+      {title && <Link className="breadcrumbs_title">{capitalized(title)}</Link>}
     </Material.Breadcrumbs>
   );
 };
