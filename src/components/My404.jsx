@@ -5,10 +5,12 @@ import BreadCrumbs from "./Breadcrumbs";
 
 const My404 = () => {
   const navigate = useNavigate();
-  const { "*": pages } = useParams();
+  const { category, id, "*": pages } = useParams();
+  const route = category && "categories/" + category + (id ? "/" + id : "");
+
   return (
     <>
-      <BreadCrumbs pages={pages} />
+      <BreadCrumbs pages={route || pages} />
       <div className="cart">
         <div className="cart-container">
           <h1>Page Not Found</h1>
