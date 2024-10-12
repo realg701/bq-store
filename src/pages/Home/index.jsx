@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
 import ProductContext from "../../Context/ProductContext";
 import LoaderContext from "../../Context/LoaderContext";
-import { Box, Button, Skeleton } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { AddShoppingCart, ShoppingBag } from "@mui/icons-material";
 import { BE_URL } from "../../constants/url";
 import { findCountry } from "../../constants";
