@@ -18,43 +18,40 @@ const AddProduct = lazy(() => import("./pages/AddProduct"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
 const My404 = lazy(() => import("./components/My404"));
 import Footer from "./components/Footer";
-import NetworkStatusProvider from "./components/NetworkStatusProvider";
+// import NetworkStatusProvider from "./components/NetworkStatusProvider";
 import "./App.css";
 
 export default function App() {
   const fallback = <Loader />;
 
   return (
-    <NetworkStatusProvider>
-      <BrowserRouter>
-        <LoaderContainer>
-          <CartContainer>
-            <ProductContainer>
-              <Header />
-              <Suspense fallback={fallback}>
-                <Routes>
-                  <Route path="*" exact element={<My404 />} />
-                  <Route path="/" element={<Home />} />
-                  <Route path="/categories" element={<Categories />} />
-                  <Route path="/categories/:category" element={<Category />} />
-                  <Route
-                    path="/categories/:category/:id"
-                    element={<Product />}
-                  />
-                  <Route path="/products/addproduct" element={<AddProduct />} />
-                  <Route path="/products/edit/:id" element={<EditProduct />} />
-                  <Route path="/checkout" element={<CheckOut />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/auth/register" element={<Register />} />
-                  <Route path="/auth/login" element={<Login />} />
-                  <Route path="/auth/dashboard" element={<Dashboard />} />
-                </Routes>
-              </Suspense>
-              <Footer />
-            </ProductContainer>
-          </CartContainer>
-        </LoaderContainer>
-      </BrowserRouter>
-    </NetworkStatusProvider>
+    // <NetworkStatusProvider>
+    <BrowserRouter>
+      <LoaderContainer>
+        <CartContainer>
+          <ProductContainer>
+            <Header />
+            <Suspense fallback={fallback}>
+              <Routes>
+                <Route path="*" exact element={<My404 />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/categories/:category" element={<Category />} />
+                <Route path="/categories/:category/:id" element={<Product />} />
+                <Route path="/products/addproduct" element={<AddProduct />} />
+                <Route path="/products/edit/:id" element={<EditProduct />} />
+                <Route path="/checkout" element={<CheckOut />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/auth/register" element={<Register />} />
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/dashboard" element={<Dashboard />} />
+              </Routes>
+            </Suspense>
+            <Footer />
+          </ProductContainer>
+        </CartContainer>
+      </LoaderContainer>
+    </BrowserRouter>
+    // </NetworkStatusProvider>
   );
 }
