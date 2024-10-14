@@ -7,33 +7,41 @@ import BreadCrumbs from "../../components/Breadcrumbs";
 import { BE_URL } from "../../constants/url";
 import Loader from "../../components/Loader";
 import LoaderContext from "../../Context/LoaderContext";
+import "./category.css";
 
 export default function Categories() {
   // Product Context to set to all fetched products
   const productContext = React.useContext(ProductContext);
-  const { allProducts, setAllProducts } = productContext;
+  const { allProducts, setProductsGlobally } = productContext;
   // Loading Context to display loader while loading is true
-  const loaderContext = React.useContext(LoaderContext);
-  const { loading, setLoading } = loaderContext;
+  const [isLoading, setIsLoading] = React.useState(false);
   // Gettiing all products categories
   const productsCategories = _.uniq(_.map(allProducts, "category"));
 
   React.useEffect(() => {
-    setLoading(true);
-    fetch(`${BE_URL}/products/all`)
+    const controller = new AbortController();
+
+    setIsLoading(true);
+    fetch(`${BE_URL}/products/all`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        setAllProducts(data.products);
+        setProductsGlobally(data.products);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, [setAllProducts, setLoading]);
+      .catch((error) => {
+        if (error.name === "AbortError") console.log("Cancelled!");
+        else console.log(error);
+        setIsLoading(false);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   React.useEffect(() => {
     initialScrollTo(0);
   }, []);
 
-  if (loading) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <>
