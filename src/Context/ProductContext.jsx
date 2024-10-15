@@ -4,12 +4,11 @@ const ProductContext = createContext({});
 
 export const ProductContainer = ({ children }) => {
   const [allProducts, setAllProducts] = useState([]);
-  const setProductsGlobally = (data) => {
-    setAllProducts(data);
-  };
+  const setProductsGlobally = (data) => setAllProducts(data);
+
   return (
     <ProductContext.Provider
-      value={{ allProducts, setProductsGlobally, setAllProducts }}
+      value={{ allProducts, setAllProducts, setProductsGlobally }}
     >
       {children}
     </ProductContext.Provider>
