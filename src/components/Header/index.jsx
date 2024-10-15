@@ -28,7 +28,7 @@ export default function Header() {
             <div>
               <IconButton
                 onClick={() => {
-                  navigate("/login");
+                  navigate("/auth/login");
                 }}
               >
                 <Login fontSize="large" style={{ color: "#ffff90" }} />
