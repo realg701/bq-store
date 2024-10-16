@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CartContext from "../../Context/CartContext";
 import ProductContext from "../../Context/ProductContext";
-import LoaderContext from "../../Context/LoaderContext";
 import { Box, Button } from "@mui/material";
 import { AddShoppingCart, ShoppingBag } from "@mui/icons-material";
 import { BE_URL } from "../../constants/url";
@@ -15,22 +14,29 @@ export default function Home() {
   const cartContext = React.useContext(CartContext);
   const { addToCart, buyNow } = cartContext;
   const productContext = React.useContext(ProductContext);
-  const { allProducts, setAllProducts } = productContext;
-  const loaderContext = React.useContext(LoaderContext);
-  const { loading, setLoading } = loaderContext;
+  const { allProducts, setProductsGlobally } = productContext;
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    setLoading(true);
-    fetch(`${BE_URL}/products/all`)
+    const controller = new AbortController();
+
+    setIsLoading(true);
+    fetch(`${BE_URL}/products/all`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        setAllProducts(data.products);
+        setProductsGlobally(data.products);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, [setAllProducts, setLoading]);
+      .catch((error) => {
+        if (error.name === "AbortError") console.log("Cancelled!");
+        else console.log(error);
+        setIsLoading(false);
+      });
 
-  if (loading) return <Loader ring={true} />;
+    return () => controller.abort();
+  }, []);
+
+  if (isLoading) return <Loader ring={true} />;
 
   return (
     <>
