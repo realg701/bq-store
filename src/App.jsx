@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartContainer } from "./Context/CartContext";
 import { ProductContainer } from "./Context/ProductContext";
-import { LoaderContainer } from "./Context/LoaderContext";
+// import { LoaderContainer } from "./Context/LoaderContext";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -27,30 +27,30 @@ export default function App() {
   return (
     // <NetworkStatusProvider>
     <BrowserRouter>
-      <LoaderContainer>
-        <CartContainer>
-          <ProductContainer>
-            <Header />
-            <Suspense fallback={fallback}>
-              <Routes>
-                <Route path="*" exact element={<My404 />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/categories" element={<Categories />} />
-                <Route path="/categories/:category" element={<Category />} />
-                <Route path="/categories/:category/:id" element={<Product />} />
-                <Route path="/products/addproduct" element={<AddProduct />} />
-                <Route path="/products/edit/:id" element={<EditProduct />} />
-                <Route path="/checkout" element={<CheckOut />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/auth/register" element={<Register />} />
-                <Route path="/auth/login" element={<Login />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-              </Routes>
-            </Suspense>
-            <Footer />
-          </ProductContainer>
-        </CartContainer>
-      </LoaderContainer>
+      {/* <LoaderContainer> */}
+      <CartContainer>
+        <ProductContainer>
+          <Header />
+          <Suspense fallback={fallback}>
+            <Routes>
+              <Route path="*" exact element={<My404 />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/categories/:category" element={<Category />} />
+              <Route path="/categories/:category/:id" element={<Product />} />
+              <Route path="/products/addproduct" element={<AddProduct />} />
+              <Route path="/products/edit/:id" element={<EditProduct />} />
+              <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/auth/register" element={<Register />} />
+              <Route path="/auth/login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+          </Suspense>
+          <Footer />
+        </ProductContainer>
+      </CartContainer>
+      {/* </LoaderContainer> */}
     </BrowserRouter>
     // </NetworkStatusProvider>
   );
