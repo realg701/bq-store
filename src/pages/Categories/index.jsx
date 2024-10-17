@@ -2,18 +2,17 @@ import React from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 import ProductContext from "../../Context/ProductContext";
+import { BE_URL } from "../../constants/url";
 import { initialScrollTo } from "../../constants";
 import BreadCrumbs from "../../components/Breadcrumbs";
-import { BE_URL } from "../../constants/url";
 import Loader from "../../components/Loader";
-import LoaderContext from "../../Context/LoaderContext";
 import "./category.css";
 
 export default function Categories() {
   // Product Context to set to all fetched products
   const productContext = React.useContext(ProductContext);
   const { allProducts, setProductsGlobally } = productContext;
-  // Loading Context to display loader while loading is true
+  // Loading State to display loader while loading is true
   const [isLoading, setIsLoading] = React.useState(false);
   // Gettiing all products categories
   const productsCategories = _.uniq(_.map(allProducts, "category"));
@@ -25,7 +24,7 @@ export default function Categories() {
     fetch(`${BE_URL}/products/all`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        setProductsGlobally(data.products);
+        setProductsGlobally(data.products.sort());
         setIsLoading(false);
       })
       .catch((error) => {
@@ -41,7 +40,7 @@ export default function Categories() {
     initialScrollTo(0);
   }, []);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader ring />;
 
   return (
     <>
@@ -49,7 +48,7 @@ export default function Categories() {
       <div className="category-container">
         <h1 style={{ textAlign: "center" }}>Categories</h1>
         <div className="container">
-          {productsCategories.map((category, index) => (
+          {productsCategories.sort().map((category, index) => (
             <div className="products-container" key={index}>
               <Link to={`/categories/${category.toLowerCase()}`}>
                 <div className="products-card">
