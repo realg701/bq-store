@@ -18,6 +18,7 @@ export default function Category() {
   const cartContext = React.useContext(CartContext);
   const { addToCart, buyNow } = cartContext;
   const [filteredProducts, setFilteredProducts] = React.useState([]);
+  // Loading State to display loader while loading is true
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFound, setIsFound] = React.useState(true);
 
