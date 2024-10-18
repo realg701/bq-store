@@ -4,6 +4,7 @@ import { CartContainer } from "./Context/CartContext";
 import { ProductContainer } from "./Context/ProductContext";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 const Categories = lazy(() => import("./pages/Categories"));
 const Category = lazy(() => import("./pages/Categories/Category"));
@@ -16,12 +17,11 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AddProduct = lazy(() => import("./pages/AddProduct"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
 const My404 = lazy(() => import("./components/My404"));
-import Footer from "./components/Footer";
 // import NetworkStatusProvider from "./components/NetworkStatusProvider";
 import "./App.css";
 
 export default function App() {
-  const fallback = <Loader />;
+  const fallback = <Loader ring />;
 
   return (
     // <NetworkStatusProvider>
