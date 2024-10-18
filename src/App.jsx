@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartContainer } from "./Context/CartContext";
 import { ProductContainer } from "./Context/ProductContext";
-// import { LoaderContainer } from "./Context/LoaderContext";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -27,7 +26,6 @@ export default function App() {
   return (
     // <NetworkStatusProvider>
     <BrowserRouter>
-      {/* <LoaderContainer> */}
       <CartContainer>
         <ProductContainer>
           <Header />
@@ -50,7 +48,6 @@ export default function App() {
           <Footer />
         </ProductContainer>
       </CartContainer>
-      {/* </LoaderContainer> */}
     </BrowserRouter>
     // </NetworkStatusProvider>
   );
