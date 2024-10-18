@@ -16,8 +16,8 @@ export default function Loader({ loading, ring, top }) {
       {ring && (
         <Box
           sx={{
-            position: "fixed",
-            top: top || "36%",
+            position: "absolute",
+            top: top || "36dvh",
             left: "50%",
             transform: "translate(-50%, -50%)",
           }}
