@@ -2,13 +2,37 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Material from "@mui/material";
 import * as Icon from "@mui/icons-material";
-import List from "@mui/material/List";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import "./drawer.css";
 
+const listData = [
+  {
+    title: "Home",
+    link: "/",
+    icon: <Icon.Home fontSize="small" />,
+  },
+  {
+    title: "Categories",
+    link: "/categories",
+    icon: <Icon.Class fontSize="small" />,
+  },
+  {
+    title: "Profile",
+    link: "/dashboard",
+    icon: <Icon.Person fontSize="small" />,
+  },
+  {
+    title: "Orders",
+    link: "/orders",
+    icon: <Icon.BookmarkBorder fontSize="small" />,
+  },
+  {
+    title: "Add Product",
+    link: "/products/addproduct",
+    icon: <Icon.AddBox fontSize="small" />,
+  },
+];
+
 export default function Drawer() {
-  const navigate = useNavigate();
   const [state, setState] = React.useState({
     left: false,
   });
@@ -33,12 +57,8 @@ export default function Drawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <div className="drawer-left">
-        <Material.IconButton>
-          <Icon.Menu
-            onClick={toggleDrawer(anchor, true)}
-            fontSize="large"
-            color="secondary"
-          />
+        <Material.IconButton onClick={toggleDrawer(anchor, true)}>
+          <Icon.Menu fontSize="large" color="secondary" />
         </Material.IconButton>
         <Link to={"/"}>
           <Material.IconButton color="warning">
@@ -54,34 +74,18 @@ export default function Drawer() {
           </Material.IconButton>
         </Link>
       </div>
-      <List>
-        {[
-          {
-            title: "Home",
-            link: "/",
-            icon: <Icon.Home fontSize="small" />,
-          },
-          {
-            title: "Categories",
-            link: "/categories",
-            icon: <Icon.Class fontSize="small" />,
-          },
-          {
-            title: "Profile",
-            link: "/dashboard",
-            icon: <Icon.Person fontSize="small" />,
-          },
-        ].map((text, index) => (
-          <Link to={text.link} key={text}>
+      <Material.List>
+        {listData.map((text, index) => (
+          <Link to={text.link} key={index}>
             <Material.ListItem disablePadding>
-              <Material.ListItemButton onClick={() => navigate("/")}>
+              <Material.ListItemButton>
                 <Material.ListItemIcon>{text.icon}</Material.ListItemIcon>
                 <Material.ListItemText primary={text.title} />
               </Material.ListItemButton>
             </Material.ListItem>
           </Link>
         ))}
-      </List>
+      </Material.List>
       <Material.Divider />
       <Material.List>
         {[
@@ -95,8 +99,13 @@ export default function Drawer() {
             link: "/contact",
             icon: <Icon.ContactMail fontSize="small" />,
           },
+          {
+            title: "Settings",
+            link: "/settings",
+            icon: <Icon.Settings fontSize="small" />,
+          },
         ].map((text, index) => (
-          <Link to={text.link} key={text}>
+          <Link to={text.link} key={index}>
             <Material.ListItem key={text.title} disablePadding>
               <Material.ListItemButton>
                 <Material.ListItemIcon>{text.icon}</Material.ListItemIcon>
@@ -113,12 +122,8 @@ export default function Drawer() {
     <div>
       {["left"].map((anchor) => (
         <div className="header-icon" key={anchor}>
-          <Material.IconButton>
-            <Icon.Menu
-              onClick={toggleDrawer(anchor, true)}
-              fontSize="large"
-              style={{ color: "#ffff90" }}
-            />
+          <Material.IconButton onClick={toggleDrawer(anchor, true)}>
+            <Icon.Menu fontSize="large" style={{ color: "#ffff90" }} />
           </Material.IconButton>
           <Link to={"/"}>
             <Material.IconButton>
