@@ -18,7 +18,8 @@
   position: relative;
 
   & .cart {
-    height: 90dvh;
+    /* height: 90dvh; */
+    margin: 0;
     text-align: unset;
 
     & .cart-container {
@@ -87,6 +88,7 @@
         }
 
         & div {
+          border-top: 1px solid #9c27b0;
           & label {
             background: -webkit-linear-gradient(
               0deg,
@@ -127,6 +129,7 @@
   bottom: 0;
   padding: 16px 8px;
   background-color: #ffffff;
+  z-index: 1;
   & .subtotal {
     display: flex;
     justify-content: space-between;
@@ -136,6 +139,6 @@
   & :nth-child(2) {
     margin: 0 auto 20px;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
   }
 }
