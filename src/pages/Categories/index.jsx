@@ -48,24 +48,28 @@ export default function Categories() {
       <div className="category-container">
         <h1 style={{ textAlign: "center" }}>Categories</h1>
         <div className="container">
-          {productsCategories.sort().map((category, index) => (
-            <div className="products-container" key={index}>
-              <Link to={`/categories/${category.toLowerCase()}`}>
-                <div className="products-card">
-                  <img
-                    src={`/svgs/categories/${category
-                      .split(" ")
-                      .join("-")
-                      .toLowerCase()}.svg`}
-                    alt={category}
-                    width={100}
-                    height={100}
-                  />
-                  <p>{category}</p>
-                </div>
-              </Link>
-            </div>
-          ))}
+          {productsCategories.length ? (
+            productsCategories.sort().map((category, index) => (
+              <div className="products-container" key={index}>
+                <Link to={`/categories/${category.toLowerCase()}`}>
+                  <div className="products-card">
+                    <img
+                      src={`/svgs/categories/${category
+                        .split(" ")
+                        .join("-")
+                        .toLowerCase()}.svg`}
+                      alt={category}
+                      width={100}
+                      height={100}
+                    />
+                    <p>{category}</p>
+                  </div>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <Loader ring top={"100px"} />
+          )}
         </div>
       </div>
     </>
