@@ -26,16 +26,15 @@ const CheckOut = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const user = JSON.parse(localStorage.getItem("user"));
   const { language, preset } = findCountry("pakistan");
-  //
+  // Contexts
   const cartContext = React.useContext(CartContext);
   const { cartItems, setCartItems, handleQuantity, removeFromCart, total } =
     cartContext;
   const productContext = React.useContext(ProductContext);
-  // const { allProducts } = productContext;
-  // const { allProducts } = React.useContext(ProductContext);
-  console.log("allProducts", productContext.allProducts);
+  const { allProducts } = productContext;
+  // Loading State to display loader while loading is true
+  const [isLoading, setIsLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState("No items in Cart");
   const [order, setOrder] = React.useState({
     name: "",
@@ -61,7 +60,7 @@ const CheckOut = () => {
     }
   }, []);
 
-  if (loading)
+  if (isLoading)
     return (
       <>
         <BreadCrumbs pages={"Cart"} />
@@ -185,13 +184,13 @@ const CheckOut = () => {
               </div>
               {user ? (
                 <Button
-                  disabled={loading}
+                  disabled={isLoading}
                   className="checkout-btn"
                   onClick={() =>
                     handleSubmit(
                       userData,
                       setOpen,
-                      setLoading,
+                      setIsLoading,
                       setCartItems,
                       setMessage
                     )
