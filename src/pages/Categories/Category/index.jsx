@@ -48,7 +48,6 @@ export default function Category() {
     initialScrollTo(0);
   }, []);
 
-  if (isLoading) return <Loader ring />;
   if (!isFound) return <My404 />;
 
   return (
@@ -63,48 +62,52 @@ export default function Category() {
           </Material.Typography>
         </Material.Box>
         <div className="container">
-          {filteredProducts.map((product) => (
-            <div className="products-container" key={product._id}>
-              <Material.Box paddingInline={1}>
-                <Link
-                  to={`/categories/${
-                    product.category.toLowerCase() + "/" + product._id
-                  }`}
-                >
-                  <div className="products-card">
-                    <img src={product.image} alt={product.title} />
-                    <p>{product.title}</p>
-                  </div>
-                </Link>
-                <span>
-                  <p>{product.price.toLocaleString(language, preset)}</p>
-                  <Link to={`/categories/${product.category.toLowerCase()}`}>
-                    <p>{product.category}</p>
+          {filteredProducts.length ? (
+            filteredProducts.map((product) => (
+              <div className="products-container" key={product._id}>
+                <Material.Box paddingInline={1}>
+                  <Link
+                    to={`/categories/${
+                      product.category.toLowerCase() + "/" + product._id
+                    }`}
+                  >
+                    <div className="products-card">
+                      <img src={product.image} alt={product.title} />
+                      <p>{product.title}</p>
+                    </div>
                   </Link>
+                  <span>
+                    <p>{product.price.toLocaleString(language, preset)}</p>
+                    <Link to={`/categories/${product.category.toLowerCase()}`}>
+                      <p>{product.category}</p>
+                    </Link>
+                  </span>
+                </Material.Box>
+                <span>
+                  <Material.Button
+                    className="btn"
+                    variant="contained"
+                    color="success"
+                    onClick={() => addToCart(product)}
+                  >
+                    <Icon.AddShoppingCart />
+                    Add to Cart
+                  </Material.Button>
+                  <Material.Button
+                    className="btn"
+                    variant="contained"
+                    color="warning"
+                    onClick={() => buyNow(product)}
+                  >
+                    <Icon.ShoppingBag />
+                    Buy now
+                  </Material.Button>
                 </span>
-              </Material.Box>
-              <span>
-                <Material.Button
-                  className="btn"
-                  variant="contained"
-                  color="success"
-                  onClick={() => addToCart(product)}
-                >
-                  <Icon.AddShoppingCart />
-                  Add to Cart
-                </Material.Button>
-                <Material.Button
-                  className="btn"
-                  variant="contained"
-                  color="warning"
-                  onClick={() => buyNow(product)}
-                >
-                  <Icon.ShoppingBag />
-                  Buy now
-                </Material.Button>
-              </span>
-            </div>
-          ))}
+              </div>
+            ))
+          ) : (
+            <Loader ring top={"100px"} />
+          )}
         </div>
       </div>
     </>
