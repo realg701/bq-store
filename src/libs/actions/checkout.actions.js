@@ -57,7 +57,7 @@ export const handleChange = (e, order, setOrder) => {
 export const handleSubmit = async (
   userData,
   setOpen,
-  setLoading,
+  setIsLoading,
   setCartItems,
   setMessage
 ) => {
@@ -68,7 +68,7 @@ export const handleSubmit = async (
     initialScrollTo(0);
     return setOpen(true);
   }
-  setLoading(true);
+  setIsLoading(true);
   fetch(`${BE_URL}/orders/order`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -92,13 +92,16 @@ export const handleSubmit = async (
           "userInput",
           JSON.stringify({ name, phoneNumber, address, email })
         );
+        setIsLoading(false);
       }
       if (data.status === "empty") {
         setMessage("Your Cart Is Empty");
+        setIsLoading(false);
       }
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => setLoading(false));
+      setIsLoading(false);
+    });
+  // .finally(() => setIsLoading(false));
 };
