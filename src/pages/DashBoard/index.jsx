@@ -1,13 +1,17 @@
 import React from "react";
 import "./dashboard.css";
 import { initialScrollTo } from "../../constants";
+import TextEditor from "../../components/TextEditor";
 const Dashboard = () => {
   const [user, setUser] = React.useState({
     name: "",
     email: "",
     phoneNumber: "",
     address: "",
+    bio: "",
   });
+
+  console.log(user);
 
   React.useEffect(() => {
     initialScrollTo(0);
@@ -33,6 +37,7 @@ const Dashboard = () => {
           <li>Address: {user.address}</li>
         </ul>
       </div>
+      <TextEditor user={user} setUser={setUser} />
     </div>
   );
 };
