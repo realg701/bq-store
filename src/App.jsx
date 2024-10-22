@@ -13,7 +13,7 @@ import CheckOut from "./pages/CheckOut";
 const Orders = lazy(() => import("./pages/Orders"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
+const DashBoard = lazy(() => import("./pages/DashBoard"));
 const AddProduct = lazy(() => import("./pages/AddProduct"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
 const My404 = lazy(() => import("./components/My404"));
@@ -42,7 +42,7 @@ export default function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/auth/register" element={<Register />} />
               <Route path="/auth/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<DashBoard />} />
             </Routes>
           </Suspense>
           <Footer />
