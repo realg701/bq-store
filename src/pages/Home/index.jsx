@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import CartContext from "../../Context/CartContext";
-import ProductContext from "../../Context/ProductContext";
 import { Box, Button } from "@mui/material";
 import { AddShoppingCart, ShoppingBag } from "@mui/icons-material";
+import CartContext from "../../Context/CartContext";
+import ProductContext from "../../Context/ProductContext";
 import { BE_URL } from "../../constants/url";
 import { findCountry } from "../../constants";
 import Loader from "../../components/Loader";
@@ -15,6 +15,7 @@ export default function Home() {
   const { addToCart, buyNow } = cartContext;
   const productContext = React.useContext(ProductContext);
   const { allProducts, setProductsGlobally } = productContext;
+  // Loading State to display loader while loading is true
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -34,9 +35,9 @@ export default function Home() {
       });
 
     return () => controller.abort();
-  }, []);
+  }, [setIsLoading]);
 
-  if (isLoading) return <Loader ring={true} />;
+  if (isLoading) return <Loader ring />;
 
   return (
     <>
@@ -45,50 +46,56 @@ export default function Home() {
           <img src="/images/ecommerce-banner.jpg" alt="ecommerce banner" />
         </div>
         <div className="container">
-          {allProducts
-            .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
-            .map((product) => (
-              <div className="products-container" key={product._id}>
-                <Box paddingInline={1}>
-                  <Link
-                    to={`/categories/${
-                      product.category.toLowerCase() + "/" + product._id
-                    }`}
-                  >
-                    <div className="products-card">
-                      <img src={product.image} alt={product.title} />
-                      <p>{product.title}</p>
-                    </div>
-                  </Link>
-                  <span>
-                    <p>{product.price.toLocaleString(language, preset)}</p>
-                    <Link to={`/categories/${product.category.toLowerCase()}`}>
-                      <p>{product.category}</p>
+          {allProducts.length ? (
+            allProducts
+              .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
+              .map((product) => (
+                <div className="products-container" key={product._id}>
+                  <Box paddingInline={1}>
+                    <Link
+                      to={`/categories/${
+                        product.category.toLowerCase() + "/" + product._id
+                      }`}
+                    >
+                      <div className="products-card">
+                        <img src={product.image} alt={product.title} />
+                        <p>{product.title}</p>
+                      </div>
                     </Link>
+                    <span>
+                      <p>{product.price.toLocaleString(language, preset)}</p>
+                      <Link
+                        to={`/categories/${product.category.toLowerCase()}`}
+                      >
+                        <p>{product.category}</p>
+                      </Link>
+                    </span>
+                  </Box>
+                  <span>
+                    <Button
+                      className="btn"
+                      variant="contained"
+                      color="success"
+                      onClick={() => addToCart(product)}
+                    >
+                      <AddShoppingCart />
+                      Add to Cart
+                    </Button>
+                    <Button
+                      className="btn"
+                      variant="contained"
+                      color="warning"
+                      onClick={() => buyNow(product)}
+                    >
+                      <ShoppingBag />
+                      Buy now
+                    </Button>
                   </span>
-                </Box>
-                <span>
-                  <Button
-                    className="btn"
-                    variant="contained"
-                    color="success"
-                    onClick={() => addToCart(product)}
-                  >
-                    <AddShoppingCart />
-                    Add to Cart
-                  </Button>
-                  <Button
-                    className="btn"
-                    variant="contained"
-                    color="warning"
-                    onClick={() => buyNow(product)}
-                  >
-                    <ShoppingBag />
-                    Buy now
-                  </Button>
-                </span>
-              </div>
-            ))}
+                </div>
+              ))
+          ) : (
+            <Loader ring top={"100px"} />
+          )}
         </div>
       </div>
     </>
