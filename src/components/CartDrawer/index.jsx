@@ -30,6 +30,7 @@ export default function CartDrawer() {
     }
 
     setState({ ...state, [anchor]: open });
+    navigate("/checkout");
   };
 
   const list = (anchor) => (
@@ -47,7 +48,7 @@ export default function CartDrawer() {
             <Icon.Close fontSize="large" color="secondary" />
           </Material.IconButton>
           <Material.IconButton
-            onClick={() => navigate("/checkout")}
+            onClick={toggleDrawer(anchor, false)}
             color="warning"
           >
             <img src="/svgs/logo.svg" alt="" width={32} height={32} />
