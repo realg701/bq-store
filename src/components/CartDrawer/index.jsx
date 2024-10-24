@@ -17,10 +17,25 @@ export default function CartDrawer() {
   const { allProducts } = productContext;
 
   const [state, setState] = React.useState({
-    left: false,
+    right: false,
   });
 
   const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  // const toggleDrawer = (anchor, open) => () =>
+  //   setState({ ...state, [anchor]: open });
+
+  const toggleDrawerNavigate = (anchor, open) => (event) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -58,7 +73,7 @@ export default function CartDrawer() {
                 fontSize: "28px",
               }}
             >
-              <strong>Check</strong>out
+              <strong>BQ </strong>Cart
             </span>
           </Material.IconButton>
         </div>
@@ -77,10 +92,10 @@ export default function CartDrawer() {
       <div className="cart_drawer">
         <div className="cart">
           <div className="cart-container">
-            <h1>Cart Items</h1>
+            {/* <h1>Cart</h1> */}
             {cartItems.length ? (
-              cartItems.map((product, productIndex) => (
-                <>
+              <>
+                {cartItems.map((product, productIndex) => (
                   <div className="cart-card drawer_card" key={productIndex}>
                     <div className="cart-content">
                       <Link
@@ -98,13 +113,6 @@ export default function CartDrawer() {
                             }`}
                           >
                             {product.title}
-                          </Link>
-                        </p>
-                        <p>
-                          <Link
-                            to={`/categories/${product.category.toLowerCase()}`}
-                          >
-                            {product.price.toLocaleString(language, preset)}
                           </Link>
                         </p>
                         <p>
@@ -136,6 +144,7 @@ export default function CartDrawer() {
                           <Icon.AddCircle />
                         </Material.Button>
                       </div>
+                      <p>{product.price.toLocaleString(language, preset)}</p>
                       <Material.Button
                         className="remove-item"
                         color="error"
@@ -145,25 +154,24 @@ export default function CartDrawer() {
                       </Material.Button>
                     </div>
                   </div>
-                  <div className="checkout_note">
-                    {/* <h3>Order note</h3> */}
-                    <Material.TextField
-                      // onChange={(e) => handleChange(e, order, setOrder)}
-                      // value={data.value}
-                      // name={data.name}
-                      label="Order note..."
-                      variant="filled"
-                      color="secondary"
-                      placeholder="Insert you note..."
-                      fullWidth
-                      multiline
-                      rows={3}
-                    />
-                  </div>
-                </>
-              ))
+                ))}
+                <div className="checkout_note">
+                  <Material.TextField
+                    // onChange={(e) => handleChange(e, order, setOrder)}
+                    // value={data.value}
+                    // name={data.name}
+                    label="Order note..."
+                    variant="filled"
+                    color="secondary"
+                    placeholder="Insert you note..."
+                    fullWidth
+                    multiline
+                    rows={3}
+                  />
+                </div>
+              </>
             ) : (
-              <p className="no_items">No items in Cart</p>
+              <p className="no_items">Your cart is currently empty.</p>
             )}
           </div>
         </div>
@@ -177,7 +185,7 @@ export default function CartDrawer() {
         <Material.Button
           disabled={cartItems.length ? false : true}
           className="cart-btn"
-          onClick={() => navigate("/checkout")}
+          onClick={toggleDrawerNavigate(anchor, false)}
           variant="contained"
           color="success"
           startIcon={<Icon.ShoppingCartCheckout />}
