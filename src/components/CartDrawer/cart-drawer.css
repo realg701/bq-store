@@ -8,7 +8,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0 10px 10px;
-
   & .cart_icon {
     margin-right: 10px;
   }
@@ -23,6 +22,7 @@
     text-align: unset;
 
     & .cart-container {
+      box-shadow: unset;
       padding: 0px;
 
       & h1 {
@@ -88,7 +88,7 @@
         }
 
         & div {
-          border-top: 1px solid #9c27b0;
+          border: 1px solid #9c27b0;
           & label {
             background: -webkit-linear-gradient(
               0deg,
@@ -108,11 +108,6 @@
       & .cart-btns {
         text-align: center;
         height: 46px;
-        & .quantity-btns {
-          & button {
-            padding: 0 !important;
-          }
-        }
         & .quantity {
           background: #ffffff;
           width: 40px;
@@ -120,6 +115,10 @@
       }
     }
   }
+}
+
+.card_container {
+  display: flex;
 }
 
 .estimated {
