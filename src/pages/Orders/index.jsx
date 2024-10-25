@@ -5,93 +5,118 @@ import * as Icon from "@mui/icons-material";
 import { BE_URL } from "../../constants/url";
 import { findCountry } from "../../constants";
 import "./orders.css";
+import BreadCrumbs from "../../components/Breadcrumbs";
+import Loader from "../../components/Loader";
 
 const Orders = () => {
-  const { language, preset } = findCountry("pakistan");
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
   const [orders, setOrders] = React.useState([]);
-  console.log(orders);
+  const { language, preset } = findCountry("pakistan");
+
   React.useEffect(() => {
     setLoading(true);
     fetch(`${BE_URL}/orders/`)
       .then((res) => res.json())
       .then((data) => {
         setOrders(data.orders);
+        setLoading(false);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, [setOrders]);
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+    // .finally(() => setLoading(false));
+  }, [setOrders, setLoading]);
+
+  if (loading) return <Loader ring />;
 
   return (
     <>
-      <Material.Breadcrumbs
-        aria-label="breadcrumb"
-        style={{ marginTop: 100, paddingInline: 30 }}
-      >
-        <Link to={"/"}>Home</Link>
-        <Link>Orders</Link>
-      </Material.Breadcrumbs>
-      {loading ? (
-        <div className="cart">
-          <div
-            className="cart-container"
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <h1>Loading...</h1>
-            <Material.CircularProgress color="secondary" />
-          </div>
-        </div>
-      ) : orders?.length ? (
+      <BreadCrumbs pages={"orders"} />
+      {orders?.length ? (
         orders
           .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
-          .map((item) => (
-            <div className="orders" key={item._id}>
+          .map((order) => (
+            <div className="orders" key={order._id}>
               <div className="cart-container">
-                <h1>{item.name}</h1>
-                <h3>Order Time: {item.createdAt}</h3>
-                <div className="user_details">
-                  <p>Name: {item.name}</p>
-                  <p>Phone: {item.phoneNumber}</p>
-                  <p>Email: {item.email}</p>
-                  <p>Total: {item.total?.toLocaleString(language, preset)}</p>
-                  <p>Address: {item.address}</p>
+                <div className="card-container">
+                  <span className="pro">{"PRO"}</span>
+                  <ul className="card-details">
+                    <li>
+                      <h1>{order.name}</h1>
+                    </li>
+                    <li>
+                      <strong>Order Time: </strong>
+                      {order.createdAt}
+                    </li>
+                    <li>
+                      <strong>Email: </strong>
+                      {order.email}
+                    </li>
+                    <li>
+                      <strong>Phone: </strong>
+                      {order.phoneNumber}
+                    </li>
+                    <li>
+                      <strong>Address: </strong>
+                      {order.address}
+                    </li>
+                  </ul>
                 </div>
-                <h2>Products</h2>
-                <div className="products_details">
-                  {item.products.map((product) => (
-                    <div className="products-container" key={product._id}>
-                      <Link to={`/products/${product._id}`}>
-                        <div className="products-card">
-                          <img src={product.image} alt={product.title} />
-                          <p>{product.title}</p>
-                        </div>
-                      </Link>
-                      <span>
-                        <p>{product.price.toLocaleString(language, preset)}</p>
-                        <Link
-                          to={`/category/${product.category.toLowerCase()}`}
-                        >
-                          <p>{product.category}</p>
-                        </Link>
-                      </span>
-                      <span>
-                        <p>Quantity: {product.quantity}</p>
-                        <p>
-                          {(product.quantity * product.price).toLocaleString(
-                            language,
-                            preset
-                          )}
-                        </p>
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col" colSpan="2">
+                        Products
+                      </th>
+                      <th scope="col">Qty.</th>
+                      <th scope="col">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.products.map((product) => (
+                      <tr className="products_data" key={product._id}>
+                        <td>
+                          <Link
+                            to={`/categories/${
+                              product.category.toLowerCase() + "/" + product._id
+                            }`}
+                          >
+                            <img src={product.image} alt={product.title} />
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            abbr={product.title}
+                            to={`/categories/${
+                              product.category.toLowerCase() + "/" + product._id
+                            }`}
+                          >
+                            {product.title}
+                          </Link>
+                        </td>
+                        <td>{product.quantity}</td>
+                        <td>
+                          {product.price.toLocaleString(language, preset)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row" colSpan="3">
+                        Total Price:
+                      </th>
+                      <td colSpan="1">
+                        {order.total.toLocaleString(language, preset)}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
                 <span>
                   <Material.Button
-                    className="btn"
+                    // className="btn"
                     variant="contained"
                     color="success"
                   >
@@ -99,12 +124,12 @@ const Orders = () => {
                     Add to Cart
                   </Material.Button>
                   <Material.Button
-                    className="btn"
+                    // className="btn"
                     variant="contained"
                     color="warning"
                   >
                     <Icon.ShoppingBag />
-                    Buy now
+                    Add to Cart
                   </Material.Button>
                 </span>
               </div>
