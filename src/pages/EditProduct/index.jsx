@@ -1,40 +1,32 @@
-import { useState, useEffect, forwardRef } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router";
-import "./editproduct.css";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import UploadIcon from "@mui/icons-material/Upload";
-import TextField from "@mui/material/TextField";
-import Snackbar from "@mui/material/Snackbar";
+import { Link } from "react-router-dom";
+import * as Material from "@mui/material";
+import * as Icons from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
-import { Container } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 import { BE_URL } from "../../constants/url";
+import "./editproduct.css";
 
 export default function EditProduct() {
-  const navigate = useNavigate();
+  const { id } = useParams();
   const token = JSON.parse(localStorage.getItem("token"));
-  const [open, setOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  const [singleProduct, setSingleProduct] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("Edit Product");
+  const [open, setOpen] = React.useState(false);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
-  const Alert = forwardRef(function Alert(props, ref) {
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-
-  const [singleProduct, setSingleProduct] = useState({});
-  const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-  const fetchSingleProduct = async () => {
-    setLoading(true);
-    const response = await fetch(`${BE_URL}/products/${id}`);
-    const data = await response.json();
-    setSingleProduct(data.product);
-    setLoading(false);
-  };
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -56,41 +48,67 @@ export default function EditProduct() {
 
   const handleSubmit = async () => {
     const productData = { ...singleProduct };
-    const response = await fetch(`${BE_URL}/products/edit/${id}`, {
+    setLoading(true);
+    fetch(`${BE_URL}/products/edit/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(productData),
-    });
-    console.log("Response", response);
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setMessage("Product Edited Successfully");
+        }
+        if (data.status === "not-found") {
+          setMessage("Product Not Found");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage(err);
+      })
+      .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/login");
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSingleProduct();
+  React.useEffect(() => {
+    if (!user) return navigate("/login");
+    setLoading(true);
+    fetch(`${BE_URL}/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSingleProduct(data.product);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <>
+      <div
+        className="header-image"
+        style={{ marginTop: 100, paddingInline: 30 }}
+      >
+        <Link to={"/"}>Home</Link>
+        {" / "}
+        <Link to={"/"}>Edit</Link>
+        {" / "}
+        <Link>{singleProduct.title}</Link>
+      </div>
+      <h1 style={{ textAlign: "center" }}>{singleProduct.title}</h1>
       <div className="container">
         <div className="add-flex">
           <div className="add-container">
             {loading ? (
               <>
-                <CircularProgress />
+                <Material.CircularProgress />
               </>
             ) : (
-              <Container className="input-container">
-                <h3>Edit Product</h3>
-                <TextField
+              <Material.Container className="input-container">
+                <h1>{message}</h1>
+                <Material.TextField
                   required
                   fullWidth
                   value={singleProduct.title}
@@ -100,7 +118,7 @@ export default function EditProduct() {
                   variant="outlined"
                   className="text-field"
                 />
-                <TextField
+                <Material.TextField
                   required
                   fullWidth
                   value={singleProduct.category}
@@ -110,7 +128,7 @@ export default function EditProduct() {
                   variant="outlined"
                   className="text-field"
                 />
-                <TextField
+                <Material.TextField
                   required
                   fullWidth
                   value={singleProduct.seller}
@@ -120,9 +138,17 @@ export default function EditProduct() {
                   variant="outlined"
                   className="text-field"
                 />
-
+                <img
+                  src={
+                    singleProduct.image
+                      ? singleProduct.image
+                      : "/svgs/image.svg"
+                  }
+                  alt=""
+                  width={100}
+                />
                 <div className="add-flex image-input">
-                  <TextField
+                  <Material.TextField
                     fullWidth
                     value={singleProduct.image}
                     onChange={handleChange}
@@ -132,11 +158,11 @@ export default function EditProduct() {
                     className="text-field"
                   />
                   <p>or</p>
-                  <Button
+                  <Material.Button
                     variant="contained"
                     component="label"
                     size="large"
-                    startIcon={<UploadIcon />}
+                    startIcon={<Icons.Upload />}
                   >
                     Upload
                     <input
@@ -145,10 +171,10 @@ export default function EditProduct() {
                       type="file"
                       hidden
                     />
-                  </Button>
+                  </Material.Button>
                 </div>
 
-                <TextField
+                <Material.TextField
                   required
                   fullWidth
                   value={singleProduct.description}
@@ -160,7 +186,7 @@ export default function EditProduct() {
                   multiline
                   maxRows={4}
                 />
-                <TextField
+                <Material.TextField
                   required
                   fullWidth
                   value={singleProduct.price}
@@ -171,35 +197,31 @@ export default function EditProduct() {
                   variant="outlined"
                   className="text-field"
                 />
-                <Button
+                <Material.Button
                   fullWidth
                   onClick={handleSubmit}
                   variant="contained"
                   color="success"
                   className="add-btn"
-                  startIcon={<AddIcon />}
+                  startIcon={<Icons.Add />}
                 >
                   Add Product
-                </Button>
-                <Snackbar
-                  open={open}
-                  autoHideDuration={5000}
-                  onClose={handleClose}
-                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                >
-                  <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    sx={{ width: "100%" }}
-                  >
-                    Empty Fieled!
-                  </Alert>
-                </Snackbar>
-              </Container>
+                </Material.Button>
+              </Material.Container>
             )}
           </div>
         </div>
       </div>
+      <Material.Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          Empty Fields!
+        </Alert>
+      </Material.Snackbar>
     </>
   );
 }
