@@ -1,83 +1,66 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Material from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import { BE_URL } from "../../constants/url";
 import CartContext from "../../Context/CartContext";
-import ProductContext from "../../Context/ProductContext";
-import "./product.css";
+import Loader from "../../components/Loader";
 import My404 from "../../components/My404";
+import BreadCrumbs from "../../components/Breadcrumbs";
+import { handleDelete } from "../../libs/actions/product.actions";
+import "./product.css";
 
 export default function Product() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { category, id } = useParams();
   const token = JSON.parse(localStorage.getItem("token"));
-  // Contexts
+  // Context
   const cartContext = React.useContext(CartContext);
   const { addToCart, buyNow } = cartContext;
-  const productContext = React.useContext(ProductContext);
-  const { allProducts } = productContext;
-  // States
-  const [loading, setLoading] = React.useState(false);
+  // Loading State to display loader while loading is true
+  const [isLoading, setIsLoading] = React.useState(false);
+  // Single Product State to set product data
   const [singleProduct, setSingleProduct] = React.useState({});
   const [user, setUser] = React.useState(null);
-  // Find Single Product From ProductContext
-  const fetchSingleProduct = async () => {
-    // if (!allProducts.length) return navigate("/");
-    setLoading(true);
-    const findProduct = allProducts.find((product) => product._id === id);
-    setSingleProduct(findProduct);
-    // const response = await fetch(`${BE_URL}/products/${id}`);
-    // const data = await response.json();
-    // setSingleProduct(data.product);
-    setLoading(false);
-  };
-
-  const handleDelete = async () => {
-    const response = await fetch(`${BE_URL}/products/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    console.log("data", data);
-    navigate("/");
-  };
 
   React.useEffect(() => {
-    fetchSingleProduct();
+    const controller = new AbortController();
+
+    setIsLoading(true);
+    fetch(`${BE_URL}/products/${id}`, {
+      signal: controller.signal,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSingleProduct(data.product);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("error:", error.message);
+        setIsLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [id, setSingleProduct, setIsLoading]);
+
+  React.useEffect(() => {
     const isUser = JSON.parse(localStorage.getItem("user"));
     if (isUser) setUser(isUser);
   }, []);
 
   if (!singleProduct) return <My404 />;
+  if (isLoading) return <Loader ring />;
 
   return (
     <>
-      <div
-        className="header-image"
-        style={{ marginTop: 100, paddingInline: 30 }}
-      >
-        <Link to={"/"}>Home</Link>
-        {" / "}
-        <Link to={`/category/${singleProduct.category?.toLowerCase()}`}>
-          {singleProduct.category?.charAt(0).toUpperCase() +
-            singleProduct.category?.slice(1)}
-        </Link>
-        {" / "}
-        <Link>
-          {singleProduct.title?.charAt(0).toUpperCase() +
-            singleProduct.title?.slice(1)}
-        </Link>
-      </div>
-
-      <div className="container">
-        <div className="product-flex">
-          {loading ? (
-            <Material.CircularProgress color="secondary" />
-          ) : (
-            <>
+      {singleProduct.image ? (
+        <>
+          <BreadCrumbs
+            pages={"categories/" + category}
+            title={singleProduct.title}
+          />
+          <div className="container">
+            <div className="product-flex">
               <div className="product-container">
                 <img
                   className="product-image"
@@ -102,7 +85,7 @@ export default function Product() {
                           variant="contained"
                           color="error"
                           endIcon={<Icon.DeleteForever />}
-                          onClick={handleDelete}
+                          onClick={() => handleDelete(id, token, navigate)}
                         >
                           Delete Product
                         </Material.Button>
@@ -129,7 +112,7 @@ export default function Product() {
                         variant="contained"
                         color="warning"
                         endIcon={<Icon.ShoppingBag />}
-                        onClick={() => buyNow(name)}
+                        onClick={() => buyNow(singleProduct)}
                       >
                         Buy now
                       </Material.Button>
@@ -141,10 +124,12 @@ export default function Product() {
                 <h3>Product description.</h3>
                 <p>{singleProduct.description}</p>
               </div>
-            </>
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Loader ring />
+      )}
     </>
   );
 }
