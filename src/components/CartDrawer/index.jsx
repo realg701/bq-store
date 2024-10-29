@@ -178,8 +178,14 @@ export default function CartDrawer() {
       </div>
       <div className="estimated">
         <p className="subtotal">
-          Subtotal
-          <span>{total.toLocaleString(language, preset)}</span>
+          {cartItems.length ? (
+            <>
+              Subtotal
+              <span>{total.toLocaleString(language, preset)}</span>
+            </>
+          ) : (
+            <></>
+          )}
         </p>
         <p>Shipping, taxes, and discount codes calculated at checkout.</p>
         <Material.Button
