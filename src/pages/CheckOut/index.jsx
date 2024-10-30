@@ -20,6 +20,8 @@ import {
 import { findCountry, initialScrollTo } from "../../constants";
 import BreadCrumbs from "../../components/Breadcrumbs";
 import "./checkout.css";
+import IsUser from "./isUser";
+import CartCard from "../../components/CheckOut/CartCard";
 
 const CheckOut = () => {
   const navigate = useNavigate();
@@ -45,6 +47,22 @@ const CheckOut = () => {
 
   const checkOutTextField = checkOutTextFieldSet(order);
   const userData = userDataSet(token, order, total, cartItems);
+
+  const cartCardProps = {
+    allProducts,
+    handleQuantity,
+    removeFromCart,
+  };
+
+  const isUserProps = {
+    user,
+    isLoading,
+    userData,
+    setOpen,
+    setIsLoading,
+    setCartItems,
+    setMessage,
+  };
 
   React.useEffect(() => {
     initialScrollTo(0);
@@ -115,66 +133,11 @@ const CheckOut = () => {
             <div className="cart-container">
               <h1>Cart Items</h1>
               {cartItems.map((product, productIndex) => (
-                <div className="cart-card" key={productIndex}>
-                  <div className="cart-content">
-                    <Link
-                      to={`/categories/${
-                        product.category.toLowerCase() + "/" + product._id
-                      }`}
-                    >
-                      <img src={product.image} alt={product.title} />
-                    </Link>
-                    <div className="cart-title">
-                      <Link
-                        to={`/categories/${
-                          product.category.toLowerCase() + "/" + product._id
-                        }`}
-                      >
-                        <p>{product.title}</p>
-                      </Link>
-                      <Link
-                        to={`/categories/${product.category.toLowerCase()}`}
-                      >
-                        <p>
-                          <Icon.Class fontSize="small" />
-                          {product.category}
-                        </p>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="cart-btns">
-                    <div className="quantity-btns">
-                      <Button
-                        variant="text"
-                        color="warning"
-                        onClick={() => handleQuantity(product, -1)}
-                      >
-                        <Icon.RemoveCircle />
-                      </Button>
-                      <p>
-                        Qty. {product.quantity} |{" "}
-                        {(product.price * product.quantity).toLocaleString(
-                          language,
-                          preset
-                        )}
-                      </p>
-                      <Button
-                        variant="text"
-                        color="success"
-                        onClick={() => handleQuantity(product, 1, allProducts)}
-                      >
-                        <Icon.AddCircle />
-                      </Button>
-                    </div>
-                    <Button
-                      className="remove-item"
-                      color="error"
-                      onClick={() => removeFromCart(product.title)}
-                    >
-                      <Icon.RemoveShoppingCart />
-                    </Button>
-                  </div>
-                </div>
+                <CartCard
+                  product={product}
+                  cartCardProps={cartCardProps}
+                  key={productIndex}
+                />
               ))}
               <div className="estimated">
                 <p>
@@ -182,38 +145,7 @@ const CheckOut = () => {
                   <span>{total.toLocaleString(language, preset)}</span>
                 </p>
               </div>
-              {user ? (
-                <Button
-                  disabled={isLoading}
-                  className="checkout-btn"
-                  onClick={() =>
-                    handleSubmit(
-                      userData,
-                      setOpen,
-                      setIsLoading,
-                      setCartItems,
-                      setMessage
-                    )
-                  }
-                  variant="contained"
-                  color="success"
-                  startIcon={<Icon.ShoppingCartCheckout />}
-                  size="large"
-                >
-                  Place Order
-                </Button>
-              ) : (
-                <Button
-                  className="checkout-btn"
-                  onClick={() => navigate("/login")}
-                  variant="contained"
-                  startIcon={<Icon.Login />}
-                  color="warning"
-                  size="large"
-                >
-                  Please Login
-                </Button>
-              )}
+              <IsUser isUserProps={isUserProps} />
             </div>
           </div>
         </>
