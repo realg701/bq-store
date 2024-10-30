@@ -176,30 +176,32 @@ export default function CartDrawer() {
           </div>
         </div>
       </div>
-      <div className="estimated">
-        <p className="subtotal">
-          {cartItems.length ? (
-            <>
-              Subtotal
-              <span>{total.toLocaleString(language, preset)}</span>
-            </>
-          ) : (
-            <></>
-          )}
-        </p>
-        <p>Shipping, taxes, and discount codes calculated at checkout.</p>
-        <Material.Button
-          disabled={cartItems.length ? false : true}
-          className="cart-btn"
-          onClick={toggleDrawerNavigate(anchor, false)}
-          variant="contained"
-          color="success"
-          startIcon={<Icon.ShoppingCartCheckout />}
-          size="large"
-        >
-          Place Order
-        </Material.Button>
-      </div>
+      {cartItems.length && (
+        <div className="estimated">
+          <p className="subtotal">
+            {cartItems.length ? (
+              <>
+                Subtotal
+                <span>{total.toLocaleString(language, preset)}</span>
+              </>
+            ) : (
+              <></>
+            )}
+          </p>
+          <p>Shipping, taxes, and discount codes calculated at checkout.</p>
+          <Material.Button
+            disabled={cartItems.length ? false : true}
+            className="cart-btn"
+            onClick={toggleDrawerNavigate(anchor, false)}
+            variant="contained"
+            color="success"
+            startIcon={<Icon.ShoppingCartCheckout />}
+            size="large"
+          >
+            Place Order
+          </Material.Button>
+        </div>
+      )}
       {/* <Material.Divider /> */}
     </Material.Box>
   );
