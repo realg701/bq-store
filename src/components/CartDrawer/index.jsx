@@ -16,9 +16,7 @@ export default function CartDrawer() {
   const productContext = React.useContext(ProductContext);
   const { allProducts } = productContext;
 
-  const [state, setState] = React.useState({
-    right: false,
-  });
+  const [state, setState] = React.useState({ right: false });
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
